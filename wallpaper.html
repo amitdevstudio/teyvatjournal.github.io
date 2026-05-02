@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en" id="home" class="scroll-smooth overflow-x-hidden">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Download Wallpaper | AmittoWallpapers</title>
+  <!-- Open Graph (for social sharing) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="AmittoWallpapers | Free Anime HD Wallpapers" />
+  <meta name="description" content="">
+  <!-- Favicon -->
+  <link rel="icon" href="assets/images/logo/luffy-hat.png" type="image/png" />
+
+  <!-- Favicon as Open Graph image (for link previews) -->
+  <meta property="og:image" content="assets/images/logo/luffy-hat.png" />
+  <meta property="og:image:width" content="490" />
+  <meta property="og:image:height" content="490" />
+  <meta property="og:image:alt" content="AmittoWallpapers Logo" />
+
+  <link rel="preload" href="assets/images/logo/luffy-hat.png" as="image">
+
+  <link href="/src/output.css" rel="stylesheet">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style">
+
+  <!-- AOS (for animations) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-048LX9JF5P"></script>
+  <style>
+    /* Hide video controls */
+    video::-webkit-media-controls,
+    video::-moz-media-controls,
+    video::-ms-media-controls {
+      display: none !important;
+    }
+
+    /* Hide video controls in fullscreen */
+    video:fullscreen::-webkit-media-controls,
+    video:-webkit-full-screen::-webkit-media-controls {
+      display: none !important;
+    }
+
+    video:fullscreen::-moz-media-controls,
+    video:-moz-full-screen::-moz-media-controls {
+      display: none !important;
+    }
+
+    video:fullscreen::-ms-media-controls,
+    video:-ms-fullscreen::-ms-media-controls {
+      display: none !important;
+    }
+
+    /* Loader */
+    .loader {
+      display: flex;
+      gap: 4px;
+    }
+
+    header [data-aos] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    .loader div {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: white;
+      animation: bounce 0.6s infinite alternate;
+    }
+
+    .loader div:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .loader div:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes bounce {
+      to {
+        transform: translateY(-6px);
+        opacity: 0.6;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-[#0d0d0d] text-white min-h-screen">
+
+  <!-- Header -->
+  <!-- HTML HEADER -->
+  <header class="border-b border-gray-300 bg-black min-h-[60px] px-4 py-6 tracking-wide relative z-50">
+    <div class="flex flex-wrap items-center max-lg:gap-y-6 max-sm:gap-x-4">
+      <!-- Brand -->
+      <a href="index.html" class="flex text-2xl items-center font-bold flex-wrap font-sans" data-aos="zoom-in"
+        data-aos-duration="800">
+        <img src="assets/images/logo/luffy-hat.png" class="w-10 lg:-mt-1" alt="">
+        Amitto<span class="text-red-400">Wallpapers</span>
+      </a>
+
+      <!-- DESKTOP MENU -->
+      <div id="collapseMenu"
+        class="max-lg:hidden lg:flex lg:items-center lg:gap-y-8 mx-auto max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:w-2/3 max-lg:min-w-[300px] max-lg:h-full max-lg:bg-[#101014] max-lg:shadow-md max-lg:overflow-auto max-lg:px-10 max-lg:py-6 z-50">
+        <!-- Mobile close button -->
+        <button id="toggleClose"
+          class="lg:hidden fixed top-4 right-4 z-[100] rounded-full text-black bg-white w-9 h-9 flex items-center justify-center border border-gray-200 cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <ul class="flex flex-col space-y-8 lg:space-y-0 text-center lg:text-left lg:flex-row space-x-4 w-full">
+          <li class="mb-10 hidden max-lg:block">
+            <a href="index.html" class="flex text-xl text-left items-center font-bold  font-sans">
+              <img src="assets/images/logo/luffy-hat.png" class="w-10 lg:-mt-1" alt="">
+              Amitto<span class="text-red-400">Wallpapers</span>
+            </a>
+          </li>
+          <li
+            class="relative after:absolute after:left-1/2 after:-translate-x-1/2 after:bg-red-400 after:h-[2px] after:w-0 hover:after:w-full after:origin-center after:transition-all after:duration-300 after:-bottom-1">
+            <a href="#home" class="block text-[18px] font-medium" data-aos="fade-down" data-aos-delay="200">Home</a>
+          </li>
+          <li
+            class="relative after:absolute after:left-1/2 after:-translate-x-1/2 after:bg-red-400 after:h-[2px] after:w-0 hover:after:w-full after:origin-center after:transition-all after:duration-300 after:-bottom-1">
+            <a href="#latest" class="block text-[18px] font-medium" data-aos="fade-down" data-aos-delay="400">Latest</a>
+          </li>
+          <li
+            class="relative after:absolute after:left-1/2 after:-translate-x-1/2 after:bg-red-400 after:h-[2px] after:w-0 hover:after:w-full after:origin-center after:transition-all after:duration-300 after:-bottom-1">
+            <a href="#categories" class="block text-[18px] font-medium" data-aos="fade-down"
+              data-aos-delay="600">Categories</a>
+          </li>
+          <li
+            class="relative after:absolute after:left-1/2 after:-translate-x-1/2 after:bg-red-400 after:h-[2px] after:w-0 hover:after:w-full after:origin-center after:transition-all after:duration-300 after:-bottom-1">
+            <a href="#live" class="block text-[18px] font-medium" data-aos="fade-down" data-aos-delay="600">Live
+              Wallpapers</a>
+          </li>
+          <li
+            class="relative after:absolute after:left-1/2 after:-translate-x-1/2 after:bg-red-400 after:h-[2px] after:w-0 hover:after:w-full after:origin-center after:transition-all after:duration-300 after:-bottom-1">
+            <a href="#about" class="block text-[18px] font-medium" data-aos="fade-down" data-aos-delay="800">About</a>
+          </li>
+          <li
+            class="relative after:absolute after:left-1/2 after:-translate-x-1/2 after:bg-red-400 after:h-[2px] after:w-0 hover:after:w-full after:origin-center after:transition-all after:duration-300 after:-bottom-1">
+            <a href="#community" class="block text-[18px] font-medium" data-aos="fade-down"
+              data-aos-delay="1000">Community</a>
+          </li>
+          <li
+            class="relative after:absolute after:left-1/2 after:-translate-x-1/2 after:bg-red-400 after:h-[2px] after:w-0 hover:after:w-full after:origin-center after:transition-all after:duration-300 after:-bottom-1">
+            <a href="#contact" class="block text-[18px] font-medium" data-aos="fade-down"
+              data-aos-delay="1200">Contact</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Overlay (for mobile) -->
+      <div id="menuOverlay" class="hidden fixed inset-0 bg-black/40 z-40"></div>
+
+      <!-- Social icons (desktop only) -->
+      <div class="hidden lg:flex items-center ml-6 text-2xl space-x-6 text-white">
+        <ul class="flex text-2xl space-x-4" aria-label="Social media">
+          <li><a href="comingsoon.html" target="_blank" rel="noreferrer noopener" title="Instagram"
+              aria-label="Instagram" data-aos="zoom-in" data-aos-delay="500" data-aos-duration="800"
+              class="h-10 w-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-pink-600 transition-colors"><i
+                class="fab fa-instagram text-white"></i></a></li>
+          <li><a href="comingsoon.html" target="_blank" rel="noreferrer noopener" title="Facebook" aria-label="Facebook"
+              data-aos="zoom-in" data-aos-delay="700" data-aos-duration="800"
+              class="h-10 w-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-blue-600 transition-colors"><i
+                class="fab fa-facebook-f text-white"></i></a></li>
+          <li><a href="comingsoon.html" target="_blank" rel="noreferrer noopener" title="YouTube" aria-label="YouTube"
+              data-aos="zoom-in" data-aos-delay="900" data-aos-duration="800"
+              class="h-10 w-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-red-600 transition-colors"><i
+                class="fab fa-youtube text-white"></i></a></li>
+          <li><a href="comingsoon.html" target="_blank" rel="noreferrer noopener" title="Discord" aria-label="Discord"
+              data-aos="zoom-in" data-aos-delay="1100" data-aos-duration="800"
+              class="h-10 w-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-purple-700 transition-colors"><i
+                class="fab fa-discord text-white"></i></a></li>
+        </ul>
+      </div>
+
+      <!-- Toggle button (hamburger) -->
+      <button id="toggleOpen" class="lg:hidden cursor-pointer ml-auto" aria-label="Open navigation menu">
+        <svg class="w-7 h-7" fill="white" viewBox="0 0 20 20" aria-hidden="true">
+          <path fill-rule="evenodd"
+            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+            clip-rule="evenodd"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Search bar -->
+    <div
+      class="bg-white border focus-within:border-slate-900 flex items-center px-4 rounded-full h-10 lg:w-2/4 mt-3 mx-auto transition-all"
+      id="searchBar" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="200">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192.904 192.904" class="w-4 h-4 mr-3 text-gray-500">
+        <path
+          d="M190.707 180.101l-47.078-47.077c11.702-14.072 18.752-32.142 18.752-51.831C162.381 36.423 125.959 0 81.191 0 36.422 0 0 36.423 0 81.193c0 44.767 36.422 81.187 81.191 81.187 19.688 0 37.759-7.049 51.831-18.751l47.079 47.078a7.474 7.474 0 005.303 2.197 7.498 7.498 0 005.303-12.803zM15 81.193C15 44.694 44.693 15 81.191 15c36.497 0 66.189 29.694 66.189 66.193 0 36.496-29.692 66.187-66.189 66.187C44.693 147.38 15 117.689 15 81.193z" />
+      </svg>
+      <input type="search" id="searchInput" placeholder="Search..." autocomplete="off"
+        class="w-full outline-none bg-white text-black text-[15px] placeholder-gray-500 placeholder-opacity-100 focus:placeholder-gray-400 transition" />
+    </div>
+  </header>
+
+  <!-- MASONRY GRID (JS populates) -->
+  <div id="wallpaperGrid" class="w-[95%] mx-auto columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4"></div>
+
+  <!-- Main Wallpaper -->
+  <section id="main-wallpaper" class="max-w-6xl mx-auto rounded-xl shadow-lg p-6 mt-6 bg-[#1a1a1a]">
+    <div class="flex flex-col lg:flex-row gap-12">
+      <div id="previewWrapper" class="flex mx-auto justify-center items-center w-full"></div>
+      <div class="w-full lg:w-1/2 my-auto space-y-4">
+        <h1 id="wallpaperTitle" class="text-2xl font-bold">Wallpaper</h1>
+
+        <a id="previewBtn"
+          class="block w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg text-center font-medium cursor-pointer">
+          Preview Fullscreen
+        </a>
+
+        <button id="autoDownloadResize"
+          class="block w-full bg-blue-600 hover:bg-blue-700 text-white py-3 cursor-pointer rounded-lg text-center font-semibold">
+          Download for my screen (<span id="screenRes"></span>)
+        </button>
+
+        <a id="originalDownload"
+          class="block w-full bg-blue-600 hover:bg-blue-700 cursor-pointer text-white py-3 rounded-lg text-center"
+          download>
+          Download original
+        </a>
+
+        <!-- Likes & Views -->
+        <div
+          class="flex text-[18px] font-semibold justify-around gap-6 items-center px-4 py-3 border-b border-gray-700 mt-4">
+          <div class="flex gap-2">
+            <button id="likeBtn" class="cursor-pointer bg-green-600 px-3 py-1 rounded text-white flex items-center">
+              <i id="likeIcon" class="far fa-thumbs-up mr-1"></i>
+              <span id="likeCount">0</span>
+            </button>
+          </div>
+          <div class="text-gray-400 flex items-center">
+            <i class="fa-solid fa-eye ml-1 mr-1"></i><span id="viewCount">0</span>
+          </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="px-4 py-4 flex flex-wrap gap-2 text-sm" id="main-tags">
+          <span class="font-bold"><i class="fa-solid fa-tags mr-1"></i>Tags:</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Wallpapers -->
+  <section id="relatedWallpapers" class="w-[95%] mx-auto mt-4 p-6 rounded-xl shadow-lg">
+    <h2 class="text-4xl font-bold mb-6">You May Also Like</h2>
+    <div id="relatedGrid" class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4"></div>
+  </section>
+
+  <script src="wallpaperStorage.js" defer></script>
+  <script type="module" src="assets/js/search.js" defer></script>
+  <script type="module">
+    import { wallpapers } from './wallpaper.js';
+
+    /* -------------------------
+       Helpers
+    ------------------------- */
+    function formatNumber(num) {
+      if (num >= 1_000_000) return (num / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+      if (num >= 1_000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+      return num.toString();
+    }
+
+    function randomRange(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function toggleFullscreen(el) {
+      if (!document.fullscreenElement) {
+        el.requestFullscreen({ navigationUI: "hide" }).then(() => {
+          if (el.tagName === "VIDEO") el.controls = false;
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+
+    function resizeAndDownloadImage(url, w, h, filename) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = url;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const ar = img.width / img.height, tar = w / h;
+        let sx = 0, sy = 0, sw = img.width, sh = img.height;
+        if (ar > tar) { sw = img.height * tar; sx = (img.width - sw) / 2; }
+        else { sh = img.width / tar; sy = (img.height - sh) / 2; }
+        canvas.width = w; canvas.height = h;
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+        canvas.toBlob(b => {
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(b); a.download = filename;
+          document.body.appendChild(a); a.click(); a.remove();
+        }, 'image/webp', 0.9);
+      };
+    }
+
+    /* -------------------------
+       Setup
+    ------------------------- */
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentUrl = urlParams.get('img');
+    const currentTitle = urlParams.get('title');
+
+    const previewWrapper = document.getElementById('previewWrapper');
+    const wallpaperTitle = document.getElementById('wallpaperTitle');
+    const originalDownload = document.getElementById('originalDownload');
+    const autoDownloadResizeBtn = document.getElementById('autoDownloadResize');
+    const previewBtn = document.getElementById('previewBtn');
+    const tagsContainer = document.getElementById('main-tags');
+
+    let currentWallpaper;
+
+    // Find current wallpaper
+    wallpapers.forEach(wp => {
+      if (wp.images) wp.images.forEach(img => {
+        if (img.url === currentUrl) currentWallpaper = { ...wp, currentFile: img, isLive: false };
+      });
+      if (wp.videos) wp.videos.forEach(v => {
+        if (v.download === currentUrl || v.preview === currentUrl) currentWallpaper = { ...wp, currentFile: v, isLive: true };
+      });
+    });
+
+    // Fallback: if no match found, search by title
+    if (!currentWallpaper && currentTitle) {
+      wallpapers.forEach(wp => {
+        if (!currentWallpaper && wp.character === currentTitle) {
+          // Use first available media
+          if (wp.images && wp.images[0]) {
+            currentWallpaper = { ...wp, currentFile: wp.images[0], isLive: false };
+          } else if (wp.videos && wp.videos[0]) {
+            currentWallpaper = { ...wp, currentFile: wp.videos[0], isLive: true };
+          }
+        }
+      });
+    }
+
+    if (currentWallpaper) {
+      const name = currentWallpaper.character || (currentWallpaper.isLive ? 'Live Wallpaper' : 'Wallpaper');
+      wallpaperTitle.textContent = currentTitle || name;
+
+      // Media wrapper
+      const wrapper = document.createElement('div');
+      wrapper.className = 'relative w-full flex justify-center items-center';
+
+      if (currentWallpaper.isLive) {
+        const video = document.createElement('video');
+        video.src = currentWallpaper.currentFile.preview;
+        video.removeAttribute("controls");
+        video.controls = false;
+        video.autoplay = true;
+        video.loop = true;
+        video.muted = true;
+        video.playsInline = true;
+        video.className = "max-h-[60vh] w-auto rounded-lg cursor-pointer";
+        video.addEventListener('click', () => toggleFullscreen(video));
+        previewBtn.addEventListener('click', () => toggleFullscreen(video));
+        originalDownload.href = currentWallpaper.currentFile.download;
+        originalDownload.download = `${name}.mp4`;
+        document.getElementById('screenRes').textContent = `${screen.width}x${screen.height}`;
+        autoDownloadResizeBtn.addEventListener('click', () => {
+          const a = document.createElement('a');
+          a.href = currentWallpaper.currentFile.download;
+          a.download = `${name}-${screen.width}x${screen.height}.mp4`;
+          document.body.appendChild(a); a.click(); a.remove();
+        });
+        wrapper.appendChild(video);
+      } else {
+        const img = document.createElement('img');
+        img.src = currentWallpaper.currentFile.url;
+        img.className = "w-full object-contain max-h-[60vh] rounded-lg cursor-pointer";
+        img.addEventListener('click', () => toggleFullscreen(img));
+        previewBtn.addEventListener('click', () => toggleFullscreen(img));
+        originalDownload.href = currentWallpaper.currentFile.url;
+        originalDownload.download = `${name}-original.webp`;
+        document.getElementById('screenRes').textContent = `${screen.width}x${screen.height}`;
+        autoDownloadResizeBtn.addEventListener('click', () => {
+          resizeAndDownloadImage(currentWallpaper.currentFile.url, screen.width, screen.height, `${name}-${screen.width}x${screen.height}.webp`);
+        });
+        wrapper.appendChild(img);
+      }
+
+      previewWrapper.appendChild(wrapper);
+
+      // Tags
+      if (currentWallpaper.tags) {
+        tagsContainer.innerHTML += currentWallpaper.tags.map(t =>
+          `<span class="bg-gray-800 px-3 py-1 rounded-full">${t}</span>`).join('');
+      }
+    }
+
+    /* -------------------------
+       Likes & Views
+    ------------------------- */
+    const likeBtn = document.getElementById('likeBtn');
+    const likeIcon = document.getElementById('likeIcon');
+    const likeCountEl = document.getElementById('likeCount');
+    const viewCountEl = document.getElementById('viewCount');
+
+    if (currentWallpaper) {
+      const characterName = currentWallpaper.character || currentTitle || 'Unknown';
+      const uniqueId = currentUrl || currentTitle; // Use URL as unique identifier
+      
+      // Get or initialize wallpaper entry in centralized storage
+      const wp = window.wallpaperStorage.getWallpaper(uniqueId, characterName);
+      
+      // Update views count
+      const views = window.wallpaperStorage.updateViews(uniqueId);
+      
+      // Display initial data
+      likeCountEl.textContent = formatNumber(wp.likes);
+      viewCountEl.textContent = formatNumber(views);
+      
+      // Set like button state
+      const userLiked = window.wallpaperStorage.getUserLiked(uniqueId);
+      likeIcon.classList.toggle("fas", userLiked);
+      likeIcon.classList.toggle("far", !userLiked);
+      
+      // Like button click handler
+      likeBtn.addEventListener('click', () => {
+        const isCurrentlyLiked = window.wallpaperStorage.getUserLiked(uniqueId);
+        const newLikesCount = window.wallpaperStorage.updateLikes(uniqueId, isCurrentlyLiked ? -1 : 1);
+        window.wallpaperStorage.setUserLiked(uniqueId, !isCurrentlyLiked);
+        
+        likeCountEl.textContent = formatNumber(newLikesCount);
+        likeIcon.classList.toggle("fas");
+        likeIcon.classList.toggle("far");
+      });
+    }
+    if (currentWallpaper) {
+      const name = currentWallpaper.character || (currentWallpaper.isLive ? 'Live Wallpaper' : 'Wallpaper');
+      const pageTitle = `${name} | Free HD Anime Wallpapers - AmittoWallpapers`;
+      const pageDesc = `Download ${name} in HD quality. Get free ${currentWallpaper.isLive ? 'live anime wallpapers' : 'anime wallpapers'} for desktop and mobile at AmittoWallpapers.`;
+
+      // Update <title>
+      document.title = pageTitle;
+
+      // Update meta description
+      let descMeta = document.querySelector('meta[name="description"]');
+      if (!descMeta) {
+        descMeta = document.createElement('meta');
+        descMeta.setAttribute('name', 'description');
+        document.head.appendChild(descMeta);
+      }
+      descMeta.setAttribute('content', pageDesc);
+
+      // Update Open Graph (OG) tags
+      let ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', pageTitle);
+
+      let ogImage = document.querySelector('meta[property="og:image"]');
+      if (ogImage) ogImage.setAttribute('content', currentWallpaper.isLive ? currentWallpaper.currentFile.preview : currentWallpaper.currentFile.url);
+
+      let ogDesc = document.querySelector('meta[property="og:description"]');
+      if (!ogDesc) {
+        ogDesc = document.createElement('meta');
+        ogDesc.setAttribute('property', 'og:description');
+        document.head.appendChild(ogDesc);
+      }
+      ogDesc.setAttribute('content', pageDesc);
+    } else {
+      // Fallback: wallpaper not found
+      const previewWrapper = document.getElementById('previewWrapper');
+      const wallpaperTitle = document.getElementById('wallpaperTitle');
+      wallpaperTitle.textContent = 'Wallpaper Not Found';
+      previewWrapper.innerHTML = `
+        <div class="flex flex-col items-center justify-center p-8 bg-gray-900 rounded-lg">
+          <i class="fa-solid fa-exclamation-circle text-4xl text-yellow-500 mb-4"></i>
+          <h2 class="text-xl font-semibold mb-2">Wallpaper Not Found</h2>
+          <p class="text-gray-400 mb-4">The requested wallpaper could not be located.</p>
+          <p class="text-sm text-gray-500 mb-4">Params: title="${currentTitle}", img="${currentUrl}"</p>
+          <a href="index.html" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white">
+            Back to Home
+          </a>
+        </div>
+      `;
+    }
+
+
+    /* -------------------------
+       Related Wallpapers
+    ------------------------- */
+    const relatedGrid = document.getElementById('relatedGrid');
+
+    function renderCard(wp, grid) {
+      const characterName = wp.character || 'Unknown';
+      const uniqueId = wp.isVideo ? wp.preview : wp.url;
+      const wpData = window.wallpaperStorage.getWallpaper(uniqueId, characterName);
+      const likes = wpData.likes;
+      const views = wpData.views;
+
+      const card = document.createElement('div');
+      card.className = "break-inside-avoid overflow-hidden rounded-xl bg-[#1a1a1a] shadow-lg mb-6";
+
+      const mediaURL = wp.isVideo ? wp.preview : wp.url;
+      const mediaHTML = wp.isVideo
+        ? `<video loop muted playsinline class="wallpaper-img w-auto mx-auto ${wp.type === 'Mobile Live' ? 'h-56' : ''} rounded opacity-0 transition-opacity duration-500"><source src="${wp.preview}" type="video/mp4"></video>`
+        : `<img loading="lazy" src="${wp.url}" alt="${wp.character}" class="wallpaper-img ${wp.type === 'Mobile' ? 'h-56' : 'h-72'} w-auto mx-auto rounded opacity-0 transition-opacity duration-500"/>`;
+
+      card.innerHTML = `
+    <a href="wallpaper.html?title=${encodeURIComponent(wp.character)}&img=${encodeURIComponent(mediaURL)}" target="_blank">
+      <div class="relative group">
+        <span class="absolute top-2 left-2 px-2 py-1 text-xs rounded-full text-white 
+          ${wp.isVideo ? 'bg-yellow-500' : wp.type?.toLowerCase() === 'desktop' ? 'bg-red-600' : 'bg-green-600'}">
+          ${wp.isVideo ? 'Live' : wp.type?.charAt(0).toUpperCase() + wp.type?.slice(1)}
+        </span>
+        <div class="loader-container absolute inset-0 flex items-center justify-center">
+          <div class="loader"><div></div><div></div><div></div></div>
+        </div>
+        ${mediaHTML}
+      </div>
+    </a>
+    <div class="flex justify-between items-center px-4 py-3 border-b border-gray-700">
+      <div class="flex gap-2">
+        <a href="${wp.download || wp.url}" download class="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white">
+          <i class="fa-solid fa-download mr-1"></i>Download
+        </a>
+        <button class="likeBtn bg-green-600 px-3 py-1 rounded text-white flex items-center">
+          <i class="likeIcon far fa-thumbs-up mr-1"></i>
+          <span class="likeCount">${formatNumber(likes)}</span>
+        </button>
+      </div>
+      <div class="text-xs text-gray-400">
+        <i class="fa-solid fa-eye ml-1 mr-1"></i>${formatNumber(views)}
+      </div>
+    </div>
+    <div class="px-4 py-4 flex flex-wrap gap-2 text-sm">
+      <span class="font-bold"><i class="fa-solid fa-tags mr-1"></i>Tags:</span>
+      ${(wp.tags || []).map(t => `<span class="bg-gray-800 px-3 py-1 rounded-full">${t}</span>`).join('')}
+    </div>
+  `;
+      grid.appendChild(card);
+
+      const media = card.querySelector('.wallpaper-img');
+      const loader = card.querySelector('.loader-container');
+      const likeBtn = card.querySelector('.likeBtn');
+      const likeIcon = card.querySelector('.likeIcon');
+      const likeCount = card.querySelector('.likeCount');
+      
+      if (wp.isVideo) {
+        media.controls = false; // force disable
+        media.addEventListener('loadeddata', () => {
+          loader.style.display = 'none';
+          media.classList.remove('opacity-0');
+        });
+        card.addEventListener('mouseenter', () => media.play());
+        card.addEventListener('mouseleave', () => { media.pause(); media.currentTime = 0; });
+
+      } else {
+        media.addEventListener('load', () => {
+          loader.style.display = 'none';
+          media.classList.remove('opacity-0');
+        });
+      }
+
+      // Set initial like state
+      const isUserLiked = window.wallpaperStorage.getUserLiked(uniqueId);
+      likeIcon.classList.toggle('fas', isUserLiked);
+      likeIcon.classList.toggle('far', !isUserLiked);
+      
+      // Like button handler
+      likeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isCurrentlyLiked = window.wallpaperStorage.getUserLiked(uniqueId);
+        const newLikesCount = window.wallpaperStorage.updateLikes(uniqueId, isCurrentlyLiked ? -1 : 1);
+        window.wallpaperStorage.setUserLiked(uniqueId, !isCurrentlyLiked);
+        
+        likeCount.textContent = formatNumber(newLikesCount);
+        likeIcon.classList.toggle('fas');
+        likeIcon.classList.toggle('far');
+      });
+    }
+
+    function renderRelatedWallpapers() {
+      if (!currentWallpaper) return;
+      const related = wallpapers.flatMap(wp => {
+        let arr = [];
+        if (wp.images) arr.push(...wp.images.map(img => ({ ...wp, url: img.url, isVideo: false })));
+        if (wp.videos) arr.push(...wp.videos.map(v => ({ ...wp, url: v.preview, preview: v.preview, download: v.download, isVideo: true })));
+        return arr;
+      }).filter(item =>
+        item.url !== currentUrl &&
+        ((item.tags && currentWallpaper.tags?.some(t => item.tags.includes(t))) ||
+          item.character === currentWallpaper.character)
+      );
+      const limited = related.sort(() => Math.random() - 0.5);
+      if (!limited.length) relatedGrid.innerHTML = `<p class="text-gray-400">No related wallpapers found.</p>`;
+      else limited.forEach(wp => renderCard(wp, relatedGrid));
+    }
+
+    renderRelatedWallpapers();
+
+  </script>
+  <script>
+    function addImageSchema(url, name) {
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "ImageObject",
+        "contentUrl": url,
+        "name": name + " Wallpaper",
+        "license": "https://amittowallpapers.netlify.app/terms.html",
+        "acquireLicensePage": "https://amittowallpapers.netlify.app/terms.html",
+        "creator": {
+          "@type": "Organization",
+          "name": "AmittoWallpapers",
+          "url": "https://amittowallpapers.netlify.app"
+        },
+        "creditText": "AmittoWallpapers",
+        "copyrightNotice": "© 2025 AmittoWallpapers"
+      };
+
+      const script = document.createElement("script");
+      script.type = "application/ld+json";
+      script.textContent = JSON.stringify(schema);
+      document.head.appendChild(script);
+    }
+
+    // Example usage: call this with your wallpaper data
+    addImageSchema(
+      "https://amittowallpapers.netlify.app/images/goku-blue.jpg"
+    );
+        
+  </script>
+
+</body>
+
+</html>

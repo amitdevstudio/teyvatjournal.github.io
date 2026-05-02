@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tester Feedback</title>
+<link rel="stylesheet" href="./assets/src/output.css">
+
+<style>
+.radio-card input { display: none; }
+
+.radio-card div {
+  transition: all 0.2s ease;
+}
+
+.radio-card input:checked + div {
+  border-color: #6366f1;
+  background: rgba(99,102,241,0.15);
+}
+
+.glass {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(14px);
+}
+
+/* Modal animation */
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.animate-scale {
+  animation: scaleIn 0.25s ease;
+}
+</style>
+</head>
+
+<body class="bg-gradient-to-br from-black via-[#0a0a0f] to-[#111] text-white min-h-screen flex items-center justify-center p-3 sm:p-6">
+
+<form id="feedbackForm"
+action="https://formspree.io/f/mnjlvepa"
+method="POST"
+class="w-full max-w-4xl glass border border-white/10 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 space-y-8 shadow-2xl">
+
+<!-- Header -->
+<div class="text-center">
+  <h2 class="text-2xl sm:text-3xl md:text-4xl font-semibold">Website Feedback</h2>
+  <p class="text-gray-400 mt-1 text-sm sm:text-base">Help us improve the experience</p>
+</div>
+
+<input type="hidden" name="email" value="tester@paimon.com">
+<input type="hidden" name="_subject" value="New Tester Feedback">
+
+<!-- Name -->
+<div>
+  <label class="text-sm text-gray-300">Tester Name</label>
+  <input type="text" disabled name="name" value="Admin@Paimon"
+    class="mt-2 w-full p-3 rounded-lg sm:rounded-xl bg-white/10 border border-white/20 focus:ring-2 focus:ring-indigo-500 outline-none text-sm sm:text-base">
+</div>
+
+<!-- Email -->
+<div>
+  <label class="text-sm text-gray-300">Email</label>
+  <input type="email" disabled value="tester@paimon"
+    class="mt-2 w-full p-3 rounded-lg sm:rounded-xl bg-white/10 border border-white/20 opacity-70 text-sm">
+</div>
+
+<!-- Device Type -->
+<div>
+  <h3 class="text-base sm:text-lg font-medium mb-3">Device Used</h3>
+  <div class="grid grid-cols-3 gap-2">
+    
+    <label class="radio-card">
+      <input type="radio" name="device" value="Laptop/Desktop" required>
+      <div class="p-3 border border-white/10 rounded-lg text-center text-sm">💻 Laptop</div>
+    </label>
+
+    <label class="radio-card">
+      <input type="radio" name="device" value="Mobile" onclick="showResponsive()">
+      <div class="p-3 border border-white/10 rounded-lg text-center text-sm">📱 Mobile</div>
+    </label>
+
+    <label class="radio-card">
+      <input type="radio" name="device" value="Tablet" onclick="showResponsive()">
+      <div class="p-3 border border-white/10 rounded-lg text-center text-sm">📲 Tablet</div>
+    </label>
+
+  </div>
+</div>
+<!-- Responsiveness (Mobile/Tablet only) -->
+<div id="responsiveBox" class="hidden">
+  <h3 class="text-base sm:text-lg font-medium mb-3">Responsiveness (Mobile/Tablet)</h3>
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+    
+    <label class="radio-card">
+      <input type="radio" name="responsive" value="Perfect">
+      <div class="p-3 border border-white/10 rounded-lg text-center text-sm">Perfect</div>
+    </label>
+
+    <label class="radio-card">
+      <input type="radio" name="responsive" value="Good">
+      <div class="p-3 border border-white/10 rounded-lg text-center text-sm">Good</div>
+    </label>
+
+    <label class="radio-card">
+      <input type="radio" name="responsive" value="Needs Improvement">
+      <div class="p-3 border border-white/10 rounded-lg text-center text-sm">Needs Fix</div>
+    </label>
+
+    <label class="radio-card">
+      <input type="radio" name="responsive" value="Broken">
+      <div class="p-3 border border-white/10 rounded-lg text-center text-sm">Broken</div>
+    </label>
+
+  </div>
+</div>
+
+<!-- Overview -->
+<div>
+  <h3 class="text-base sm:text-lg font-medium mb-3">Overall Experience</h3>
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+    <label class="radio-card"><input type="radio" name="overview" value="Excellent" required>
+      <div class="p-3 sm:p-4 border border-white/10 rounded-lg text-center text-sm sm:text-base">Excellent</div>
+    </label>
+    <label class="radio-card"><input type="radio" name="overview" value="Good">
+      <div class="p-3 sm:p-4 border border-white/10 rounded-lg text-center text-sm sm:text-base">Good</div>
+    </label>
+    <label class="radio-card"><input type="radio" name="overview" value="Average">
+      <div class="p-3 sm:p-4 border border-white/10 rounded-lg text-center text-sm sm:text-base">Average</div>
+    </label>
+    <label class="radio-card"><input type="radio" name="overview" value="Poor">
+      <div class="p-3 sm:p-4 border border-white/10 rounded-lg text-center text-sm sm:text-base">Poor</div>
+    </label>
+  </div>
+</div>
+
+<!-- Design -->
+<div>
+  <h3 class="text-base sm:text-lg font-medium mb-3">Design & UI</h3>
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+    <label class="radio-card"><input type="radio" name="design" value="Modern" required>
+      <div class="p-3 sm:p-4 border border-white/10 rounded-lg text-center text-sm">Modern</div>
+    </label>
+    <label class="radio-card"><input type="radio" name="design" value="Clean">
+      <div class="p-3 sm:p-4 border border-white/10 rounded-lg text-center text-sm">Clean</div>
+    </label>
+    <label class="radio-card"><input type="radio" name="design" value="Cluttered">
+      <div class="p-3 sm:p-4 border border-white/10 rounded-lg text-center text-sm">Cluttered</div>
+    </label>
+    <label class="radio-card"><input type="radio" name="design" value="Confusing">
+      <div class="p-3 sm:p-4 border border-white/10 rounded-lg text-center text-sm">Confusing</div>
+    </label>
+  </div>
+</div>
+
+<!-- Navigation -->
+<div>
+  <h3 class="text-base sm:text-lg font-medium mb-3">Any Section whose links were not Working? (if any)</h3>
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+    <label class="flex items-center gap-2 bg-white/5 p-2 sm:p-3 rounded-lg border border-white/10 text-sm">
+      <input type="checkbox" name="nav" value="Navbar"> Navbar
+    </label>
+    <label class="flex items-center gap-2 bg-white/5 p-2 sm:p-3 rounded-lg border border-white/10 text-sm">
+      <input type="checkbox" name="nav" value="Hero"> Hero
+    </label>
+    <label class="flex items-center gap-2 bg-white/5 p-2 sm:p-3 rounded-lg border border-white/10 text-sm">
+      <input type="checkbox" name="nav" value="Updates"> Updates
+    </label>
+    <label class="flex items-center gap-2 bg-white/5 p-2 sm:p-3 rounded-lg border border-white/10 text-sm">
+      <input type="checkbox" name="nav" value="News"> News
+    </label>
+    <label class="flex items-center gap-2 bg-white/5 p-2 sm:p-3 rounded-lg border border-white/10 text-sm">
+      <input type="checkbox" name="nav" value="Guides"> Guides
+    </label>
+    <label class="flex items-center gap-2 bg-white/5 p-2 sm:p-3 rounded-lg border border-white/10 text-sm">
+      <input type="checkbox" name="nav" value="Wallpapers"> Wallpapers
+    </label>
+    <label class="flex items-center gap-2 bg-white/5 p-2 sm:p-3 rounded-lg border border-white/10 text-sm">
+      <input type="checkbox" name="nav" value="Newsletter"> Newsletter
+    </label>
+    <label class="flex items-center gap-2 bg-white/5 p-2 sm:p-3 rounded-lg border border-white/10 text-sm">
+      <input type="checkbox" name="nav" value="Footer"> Footer
+    </label>
+  </div>
+</div>
+
+<!-- Bugs -->
+<div>
+  <h3 class="text-base sm:text-lg font-medium mb-2">Found bugs?</h3>
+  <div class="flex gap-3">
+    <label class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/10 text-sm">
+      <input type="radio" name="bugs" value="No" required> No
+    </label>
+    <label class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/10 text-sm">
+      <input type="radio" name="bugs" value="Yes" onclick="showBug()"> Yes
+    </label>
+  </div>
+
+  <textarea id="bugBox" name="bug_details"
+    class="hidden mt-2 w-full p-2 bg-white/10 border border-white/20 rounded-lg text-sm"
+    placeholder="Describe issue..."></textarea>
+</div>
+
+<!-- Performance -->
+<div>
+  <h3 class="text-base sm:text-lg font-medium mb-2">Performance</h3>
+  <div class="flex flex-wrap gap-2">
+    <label class="bg-white/5 p-2 rounded-lg border border-white/10 text-sm">
+      <input type="radio" name="performance" value="Very Fast" required> Very Fast
+    </label>
+    <label class="bg-white/5 p-2 rounded-lg border border-white/10 text-sm">
+      <input type="radio" name="performance" value="Fast"> Fast
+    </label>
+    <label class="bg-white/5 p-2 rounded-lg border border-white/10 text-sm">
+      <input type="radio" name="performance" value="Normal"> Normal
+    </label>
+    <label class="bg-white/5 p-2 rounded-lg border border-white/10 text-sm">
+      <input type="radio" name="performance" value="Slow"> Slow
+    </label>
+  </div>
+</div>
+
+<!-- Suggestions -->
+<div>
+  <h3 class="text-base sm:text-lg font-medium mb-2">Suggestions</h3>
+  <textarea name="suggestions"
+    class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-sm"
+    rows="3"></textarea>
+</div>
+
+<!-- Submit -->
+<button type="submit"
+  class="w-full py-3 sm:py-4 rounded-xl bg-indigo-500 hover:bg-indigo-600 transition text-base sm:text-lg font-medium">
+  Submit Feedback
+</button>
+
+</form>
+
+<!-- Modal -->
+<div id="successModal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50 p-4">
+  <div class="bg-[#111] border border-white/10 rounded-2xl p-6 sm:p-8 w-full max-w-sm text-center animate-scale">
+    <h2 class="text-xl sm:text-2xl font-semibold mb-3">🎉 Thank You!</h2>
+    <p class="text-gray-400 text-sm sm:text-base mb-4">Feedback submitted successfully.</p>
+    <p class="text-gray-400 text-sm sm:text-base mb-4">Regards, <a href="https://amitdevstudio.netlify.app">AmitDevStudio</a></p>
+    <button onclick="closeModal()" class="px-5 py-2 bg-indigo-500 rounded-lg">
+      Close
+    </button>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('input[name="device"]').forEach(el => {
+  el.addEventListener("change", () => {
+    const val = document.querySelector('input[name="device"]:checked').value;
+    
+    if (val === "Mobile" || val === "Tablet") {
+      document.getElementById("responsiveBox").classList.remove("hidden");
+    } else {
+      document.getElementById("responsiveBox").classList.add("hidden");
+    }
+  });
+});
+
+const form = document.getElementById("feedbackForm");
+const modal = document.getElementById("successModal");
+
+form.addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const data = new FormData(form);
+
+  const response = await fetch(form.action, {
+    method: form.method,
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  });
+
+  if (response.ok) {
+    form.reset();
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+  } else {
+    alert("Error submitting form");
+  }
+});
+
+function showBug() {
+  document.getElementById("bugBox").classList.remove("hidden");
+}
+
+function closeModal() {
+  modal.classList.add("hidden");
+}
+</script>
+
+</body>
+</html>

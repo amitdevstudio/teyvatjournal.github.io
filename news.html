@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>News</title>
+  <link rel="stylesheet" href="/src/output.css">
+</head>
+
+<body class="bg-gray-950 text-white">
+  
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+
+    <!-- Back -->
+    <a href="index.html" 
+       class="text-sm text-gray-400 hover:text-white transition">
+      ← Back to News
+    </a>
+
+    <!-- Article -->
+    <article class="mt-8">
+
+      <!-- Image -->
+      <div class="overflow-hidden rounded-xl">
+        <img id="newsImage"
+             class="w-full h-72 object-cover transition duration-500 hover:scale-105">
+      </div>
+
+      <!-- Meta -->
+      <p id="newsMeta" class="text-sm text-gray-500 mt-6"></p>
+
+      <!-- Title -->
+      <h1 id="newsTitle" 
+          class="text-3xl md:text-4xl font-semibold mt-2 leading-tight">
+      </h1>
+
+      <!-- Description -->
+      <p id="newsDesc" 
+         class="text-gray-400 mt-4 text-lg leading-relaxed">
+      </p>
+
+      <!-- Divider -->
+      <div class="border-t border-white/10 my-8"></div>
+
+      <!-- Content -->
+      <div id="newsContent" 
+           class="text-gray-300 leading-relaxed space-y-5 text-[15px]">
+      </div>
+
+    </article>
+
+  </main>
+
+  <!-- Script -->
+  <script type="module">
+    import { news } from './asseta/js/news.js';
+
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get("id"));
+
+    const item = news.find(n => n.id === id);
+
+    if (item) {
+      document.getElementById("newsImage").src = item.image;
+      document.getElementById("newsTitle").textContent = item.title;
+      document.getElementById("newsDesc").textContent = item.desc;
+
+      // optional meta (you can add date later)
+      document.getElementById("newsMeta").textContent = "Latest Update";
+
+      // proper paragraph formatting
+      document.getElementById("newsContent").innerHTML =
+        item.content
+          .trim()
+          .split("\n")
+          .map(p => `<p>${p}</p>`)
+          .join("");
+    } else {
+      document.body.innerHTML = "<h1 class='text-center mt-20'>News not found</h1>";
+    }
+  </script>
+
+</body>
+</html>

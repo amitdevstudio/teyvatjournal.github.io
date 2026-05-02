@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Storage — TeyvatJournal</title>
+  <link rel="stylesheet" href="/src/output.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --accent:        #f0c060;
+      --accent-dim:    rgba(240,192,96,0.10);
+      --accent-border: rgba(240,192,96,0.28);
+      --surface:       rgba(255,255,255,0.04);
+      --surface-2:     rgba(255,255,255,0.07);
+      --border:        rgba(255,255,255,0.08);
+      --border-hi:     rgba(255,255,255,0.18);
+      --text-1:        #f0ede8;
+      --text-2:        #9ca3af;
+      --text-3:        #5a6070;
+      --bg:            #07080d;
+      --r-sm: 8px; --r-md: 12px; --r-lg: 18px; --r-xl: 26px;
+
+      --col-anemo:  #74c2a8;
+      --col-pyro:   #ef7939;
+      --col-hydro:  #4cc2f1;
+      --col-cryo:   #9fd6e3;
+      --col-electro:#b27fd4;
+      --col-geo:    #f0b239;
+      --col-dendro: #a0c846;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-1);
+      font-family: 'Raleway', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      opacity: 0;
+      animation: pageFade 0.45s ease forwards;
+    }
+    body { cursor: url('/TeyvatJournal/assets/images/cursor.png') 4 2, auto; }
+    button, a, input, select { cursor: url('/TeyvatJournal/assets/images/cursor.png') 4 2, auto !important; }
+
+    @keyframes pageFade { to { opacity: 1; } }
+
+    /* ── Progress bar ── */
+    #progressBar {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: linear-gradient(90deg, var(--accent), #fde68a);
+      z-index: 9999;
+      transition: width 0.08s linear;
+    }
+
+    /* ── Topbar ── */
+    .topbar {
+      position: sticky; top: 0; z-index: 200;
+      height: 58px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      background: rgba(7,8,13,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .back-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 6px 16px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 9999px;
+      color: var(--text-2); font-size: 13px; font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .back-pill:hover { background: var(--surface-2); border-color: var(--border-hi); color: var(--text-1); }
+    .topbar-title {
+      font-family: 'Cinzel', serif;
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-2);
+    }
+
+    /* ── Page layout ── */
+    .page-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 2rem 7rem;
+    }
+
+    /* ── Page header ── */
+    .page-header {
+      margin-bottom: 2.5rem;
+    }
+    .page-header-eyebrow {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .page-header-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 700; line-height: 1.2;
+      color: var(--text-1); margin-bottom: 0.5rem;
+    }
+    .page-header-sub {
+      font-size: 0.9rem; color: var(--text-2); line-height: 1.6;
+    }
+
+    /* ── Tabs ── */
+    .tabs-bar {
+      display: flex; align-items: center; gap: 4px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tabs-bar::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px;
+      background: none; border: none;
+      color: var(--text-3);
+      font-family: 'Raleway', sans-serif;
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tab-btn:hover { color: var(--text-2); }
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .tab-btn svg { opacity: 0.7; }
+    .tab-btn.active svg { opacity: 1; }
+    .tab-count {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 20px; height: 18px;
+      padding: 0 5px;
+      border-radius: 9999px;
+      background: var(--surface-2);
+      font-size: 10px; font-weight: 800;
+      color: var(--text-3);
+      transition: background 0.2s, color 0.2s;
+    }
+    .tab-btn.active .tab-count {
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    /* ── Toolbar (search + filter) ── */
+    .toolbar {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 1.75rem;
+      flex-wrap: wrap;
+    }
+    .search-wrap {
+      position: relative; flex: 1; min-width: 200px;
+    }
+    .search-wrap svg {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--text-3); pointer-events: none;
+    }
+    .search-input {
+      width: 100%;
+      padding: 9px 14px 9px 36px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      color: var(--text-1); font-family: 'Raleway', sans-serif;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .search-input::placeholder { color: var(--text-3); }
+    .search-input:focus { border-color: var(--accent-border); background: var(--surface-2); }
+
+    .filter-select {
+      padding: 9px 14px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      color: var(--text-2); font-family: 'Raleway', sans-serif;
+      font-size: 13px; font-weight: 500;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+      padding-right: 32px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235a6070' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+    }
+    .filter-select:focus { border-color: var(--accent-border); }
+
+    /* ── Tab panels ── */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Section label ── */
+    .section-label {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem; font-weight: 600;
+      color: var(--text-3);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 1rem; margin-top: 1.5rem;
+    }
+    .section-label:first-child { margin-top: 0; }
+    .section-label::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+    }
+
+    /* ── Character grid ── */
+    .char-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+    }
+
+    .char-card {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      text-decoration: none;
+      display: flex; flex-direction: column;
+      transition: transform 0.3s cubic-bezier(.22,.68,0,1.2),
+                  border-color 0.25s, box-shadow 0.25s;
+    }
+    .char-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--border-hi);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+    }
+    .char-card__img {
+      width: 100%; aspect-ratio: 1;
+      object-fit: cover; display: block;
+      background: rgba(255,255,255,0.03);
+      transition: transform 0.5s ease;
+    }
+    .char-card:hover .char-card__img { transform: scale(1.06); }
+
+    .char-card__ele {
+      position: absolute; top: 8px; right: 8px;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(7,8,13,0.75);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .char-card__ele img { width: 30px; height: 30px; object-fit: contain; }
+
+    .char-card__body {
+      padding: 0.6rem 0.75rem 0.75rem;
+    }
+    .char-card__name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--text-1); line-height: 1.3;
+      margin-bottom: 3px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .char-card:hover .char-card__name { color: var(--accent); }
+    .char-card__sub {
+      font-size: 10px; color: var(--text-3);
+      text-transform: uppercase; letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+    .char-card__rarity {
+      display: flex; gap: 1px; margin-top: 4px;
+    }
+    .star { color: var(--accent); font-size: 9px; }
+
+    /* ── Weapon grid ── */
+    .weapon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 10px;
+    }
+    .weapon-card {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 10px 14px;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s, transform 0.25s;
+    }
+    .weapon-card:hover {
+      border-color: var(--border-hi);
+      background: var(--surface-2);
+      transform: translateX(3px);
+    }
+    .weapon-card__icon {
+      width: 50px; height: 50px; flex-shrink: 0;
+      border-radius: var(--r-sm);
+      overflow: hidden;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .weapon-card__icon img {
+      width: 100%; height: 100%; object-fit: contain;
+      padding: 4px;
+    }
+    .weapon-card__info { flex: 1; min-width: 0; }
+    .weapon-card__name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem; font-weight: 600;
+      color: var(--text-1); margin-bottom: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      transition: color 0.2s;
+    }
+    .weapon-card:hover .weapon-card__name { color: var(--accent); }
+    .weapon-card__meta {
+      font-size: 11px; color: var(--text-3);
+      display: flex; gap: 8px; align-items: center;
+    }
+    .weapon-card__sub {
+      font-size: 11px; color: var(--text-2); margin-top: 2px;
+    }
+    .rarity-badge {
+      display: inline-flex; align-items: center; gap: 2px;
+      font-size: 10px; font-weight: 700; color: var(--accent);
+    }
+    .rarity-badge.r4 { color: #c084fc; }
+
+    /* ── Material grid ── */
+    .mat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    .mat-card {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 10px 12px;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .mat-card:hover {
+      border-color: var(--border-hi);
+      background: var(--surface-2);
+    }
+    .mat-card__icon {
+      width: 42px; height: 42px; flex-shrink: 0;
+      border-radius: var(--r-sm);
+      overflow: hidden;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .mat-card__icon img {
+      width: 100%; height: 100%; object-fit: contain; padding: 3px;
+    }
+    .mat-card__name {
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--text-1); line-height: 1.3;
+      transition: color 0.2s;
+    }
+    .mat-card:hover .mat-card__name { color: var(--accent); }
+    .mat-card__type {
+      font-size: 10px; color: var(--text-3);
+      text-transform: uppercase; letter-spacing: 0.06em;
+      font-weight: 600; margin-top: 2px;
+    }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center; padding: 4rem 0;
+      color: var(--text-3); font-size: 0.9rem;
+    }
+    .empty-state svg { margin: 0 auto 1rem; display: block; opacity: 0.3; }
+
+    /* ── Mobile ── */
+    @media (max-width: 600px) {
+      .topbar { padding: 0 1.25rem; }
+      .page-wrap { padding: 2rem 1.25rem 5rem; }
+      .char-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+      .weapon-grid { grid-template-columns: 1fr; }
+      .mat-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="progressBar"></div>
+
+  <nav class="topbar">
+    <a href="index.html" class="back-pill">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+        <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back
+    </a>
+    <span class="topbar-title">Storage</span>
+    <div style="width:90px"></div>
+  </nav>
+
+  <main class="page-wrap">
+
+    <div class="page-header">
+      <p class="page-header-eyebrow">TeyvatJournal</p>
+      <h1 class="page-header-title">Storage</h1>
+      <p class="page-header-sub">Browse all characters, weapons and materials used across guides.</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-bar" role="tablist">
+      <button class="tab-btn active" data-tab="characters" role="tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Characters
+        <span class="tab-count" id="char-count">0</span>
+      </button>
+      <button class="tab-btn" data-tab="weapons" role="tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5L3 6V3h3l11.5 11.5"/><path d="M13 19l6-6"/><path d="M16 16l4 4"/><path d="M19 21l2-2"/></svg>
+        Weapons
+        <span class="tab-count" id="weap-count">0</span>
+      </button>
+      <button class="tab-btn" data-tab="materials" role="tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        Materials
+        <span class="tab-count" id="mat-count">0</span>
+      </button>
+    </div>
+
+    <!-- Characters Panel -->
+    <div class="tab-panel active" id="panel-characters">
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="search-input" type="text" placeholder="Search characters…" id="char-search">
+        </div>
+        <select class="filter-select" id="char-element-filter">
+          <option value="">All Elements</option>
+          <option value="anemo">Anemo</option>
+          <option value="pyro">Pyro</option>
+          <option value="hydro">Hydro</option>
+          <option value="cryo">Cryo</option>
+          <option value="electro">Electro</option>
+          <option value="geo">Geo</option>
+          <option value="dendro">Dendro</option>
+        </select>
+        <select class="filter-select" id="char-rarity-filter">
+          <option value="">All Rarities</option>
+          <option value="5">5★</option>
+          <option value="4">4★</option>
+        </select>
+      </div>
+      <div class="char-grid" id="char-grid"></div>
+    </div>
+
+    <!-- Weapons Panel -->
+    <div class="tab-panel" id="panel-weapons">
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="search-input" type="text" placeholder="Search weapons…" id="weap-search">
+        </div>
+        <select class="filter-select" id="weap-type-filter">
+          <option value="">All Types</option>
+          <option value="sword">Sword</option>
+          <option value="claymore">Claymore</option>
+          <option value="polearm">Polearm</option>
+          <option value="bow">Bow</option>
+          <option value="catalyst">Catalyst</option>
+        </select>
+        <select class="filter-select" id="weap-rarity-filter">
+          <option value="">All Rarities</option>
+          <option value="5">5★</option>
+          <option value="4">4★</option>
+        </select>
+      </div>
+      <div id="weap-container"></div>
+    </div>
+
+    <!-- Materials Panel -->
+    <div class="tab-panel" id="panel-materials">
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="search-input" type="text" placeholder="Search materials…" id="mat-search">
+        </div>
+        <select class="filter-select" id="mat-type-filter">
+          <option value="">All Types</option>
+          <option value="ascension">Ascension Gem</option>
+          <option value="boss">Boss Drop</option>
+          <option value="talent">Talent Book</option>
+          <option value="mob">Mob Drop</option>
+          <option value="local">Local Specialty</option>
+          <option value="weekly">Weekly Boss</option>
+        </select>
+      </div>
+      <div id="mat-container"></div>
+    </div>
+
+  </main>
+
+  <script type="module">
+    import { characters, weapons, materials } from './assets/js/storage.js';
+    import { guides } from './assets/js/guides.js';
+
+    // Enrich each character with the guideId of its matching guide (by characterName)
+    characters.forEach(c => {
+      const match = guides.find(g => g.characterName === c.name);
+      c.guideId = match ? match.id : null;
+    });
+
+    /* ── Scroll progress ── */
+    window.addEventListener('scroll', () => {
+      const h = document.body.scrollHeight - window.innerHeight;
+      document.getElementById('progressBar').style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+    });
+
+    /* ── Element colors ── */
+    const ELEMENT_COLOR = {
+      anemo:'#74c2a8', pyro:'#ef7939', hydro:'#4cc2f1',
+      cryo:'#9fd6e3', electro:'#b27fd4', geo:'#f0b239', dendro:'#a0c846'
+    };
+    const ELEMENT_ICON = {
+      anemo: 'https://wiki.hoyolab.com/_nuxt/img/anemo.e0f1804.png',
+      pyro:  'https://wiki.hoyolab.com/_nuxt/img/pyro.2267e27.png',
+      hydro: 'https://wiki.hoyolab.com/_nuxt/img/hydro.3e969aa.png',
+      cryo:  'https://wiki.hoyolab.com/_nuxt/img/cryo.b810caa.png',
+      electro:'https://wiki.hoyolab.com/_nuxt/img/electro.be07020.png',
+      geo:   'https://wiki.hoyolab.com/_nuxt/img/geo.2498e06.png',
+      dendro:'https://wiki.hoyolab.com/_nuxt/img/dendro.88f5bfa.png',
+    };
+
+    const MAT_TYPE_LABEL = {
+      ascension:'Ascension Gem', boss:'Boss Drop', talent:'Talent Book',
+      mob:'Mob Drop', local:'Local Specialty', weekly:'Weekly Boss'
+    };
+
+    /* ── Render helpers ── */
+    function stars(n) {
+      return Array(n).fill('<span class="star">★</span>').join('');
+    }
+
+    function renderChars(list) {
+      const grid = document.getElementById('char-grid');
+      if (!list.length) { grid.innerHTML = emptyState('No characters found'); return; }
+      grid.innerHTML = list.map(c => {
+        const href = c.guideId ? `guide-detail.html?id=${c.guideId}` : '#';
+        const hasGuide = !!c.guideId;
+        return `
+        <a href="${href}" class="char-card" style="border-color: rgba(from ${ELEMENT_COLOR[c.element]} r g b / 0.25); ${!hasGuide ? 'pointer-events:none;opacity:0.6;' : ''}">
+          <div style="position:relative; overflow:hidden;">
+            <img class="char-card__img" src="${c.icon}" alt="${c.name}"
+                 onerror="this.src='https://static.wikia.nocookie.net/genshin-impact/images/1/1a/UI_ChapterIcon_Prologue.png'">
+            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(7,8,13,0.7) 0%,transparent 55%);pointer-events:none;"></div>
+            <span class="char-card__ele">
+              <img src="${ELEMENT_ICON[c.element]}" alt="${c.element}">
+            </span>
+            ${hasGuide ? `<span style="position:absolute;bottom:8px;left:8px;font-size:9px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--accent);background:rgba(7,8,13,0.75);padding:2px 7px;border-radius:9999px;backdrop-filter:blur(6px);">Guide →</span>` : ''}
+          </div>
+          <div class="char-card__body">
+            <p class="char-card__name">${c.name}</p>
+            <p class="char-card__sub" style="color:${ELEMENT_COLOR[c.element]}">${c.element} · ${c.weapon}</p>
+            <div class="char-card__rarity">${stars(c.rarity)}</div>
+          </div>
+        </a>`;
+      }).join('');
+    }
+
+    function renderWeapons(list) {
+      const container = document.getElementById('weap-container');
+      if (!list.length) { container.innerHTML = emptyState('No weapons found'); return; }
+
+      const fiveStars = list.filter(w => w.rarity === 5);
+      const fourStars = list.filter(w => w.rarity === 4);
+
+      let html = '';
+      if (fiveStars.length) {
+        html += `<p class="section-label" style="color:#f0c060">5★ Weapons</p>`;
+        html += `<div class="weapon-grid" style="margin-bottom:1.5rem">${fiveStars.map(weaponCard).join('')}</div>`;
+      }
+      if (fourStars.length) {
+        html += `<p class="section-label" style="color:#c084fc">4★ Weapons</p>`;
+        html += `<div class="weapon-grid">${fourStars.map(weaponCard).join('')}</div>`;
+      }
+      container.innerHTML = html;
+    }
+
+    function weaponCard(w) {
+      return `
+        <div class="weapon-card">
+          <div class="weapon-card__icon">
+            <img src="${w.image}" alt="${w.name}"
+                 onerror="this.style.opacity='0.3'">
+          </div>
+          <div class="weapon-card__info">
+            <p class="weapon-card__name">${w.name}</p>
+            <div class="weapon-card__meta">
+              <span class="rarity-badge ${w.rarity === 4 ? 'r4' : ''}">${stars(w.rarity)}</span>
+              <span>·</span>
+              <span style="text-transform:capitalize">${w.type}</span>
+            </div>
+            <p class="weapon-card__sub">${w.substat}</p>
+          </div>
+        </div>`;
+    }
+
+    function renderMaterials(list) {
+      const container = document.getElementById('mat-container');
+      if (!list.length) { container.innerHTML = emptyState('No materials found'); return; }
+
+      const groups = {};
+      list.forEach(m => {
+        if (!groups[m.type]) groups[m.type] = [];
+        groups[m.type].push(m);
+      });
+
+      const ORDER = ['mob','ascension','boss','local','talent','weekly'];
+      let html = '';
+      ORDER.forEach(type => {
+        if (!groups[type]) return;
+        html += `<p class="section-label">${MAT_TYPE_LABEL[type]}</p>`;
+        html += `<div class="mat-grid" style="margin-bottom:1.5rem">`;
+        html += groups[type].map(m => `
+          <div class="mat-card">
+            <div class="mat-card__icon">
+              <img src="${m.image}" alt="${m.name}"
+                   onerror="this.style.opacity='0.3'">
+            </div>
+            <div>
+              <p class="mat-card__name">${m.name}</p>
+              <p class="mat-card__type">${MAT_TYPE_LABEL[m.type]}</p>
+            </div>
+          </div>`).join('');
+        html += `</div>`;
+      });
+      container.innerHTML = html;
+    }
+
+    function emptyState(msg) {
+      return `<div class="empty-state">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        ${msg}
+      </div>`;
+    }
+
+    /* ── Tab switching ── */
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    /* ── Initial render ── */
+    renderChars(characters);
+    renderWeapons(weapons);
+    renderMaterials(materials);
+
+    document.getElementById('char-count').textContent  = characters.length;
+    document.getElementById('weap-count').textContent  = weapons.length;
+    document.getElementById('mat-count').textContent   = materials.length;
+
+    /* ── Search & filter: Characters ── */
+    function filterChars() {
+      const q   = document.getElementById('char-search').value.toLowerCase();
+      const el  = document.getElementById('char-element-filter').value;
+      const rar = document.getElementById('char-rarity-filter').value;
+      const filtered = characters.filter(c =>
+        (!q  || c.name.toLowerCase().includes(q)) &&
+        (!el || c.element === el) &&
+        (!rar|| c.rarity === Number(rar))
+      );
+      renderChars(filtered);
+    }
+    ['char-search','char-element-filter','char-rarity-filter'].forEach(id => {
+      document.getElementById(id).addEventListener('input', filterChars);
+    });
+
+    /* ── Search & filter: Weapons ── */
+    function filterWeapons() {
+      const q   = document.getElementById('weap-search').value.toLowerCase();
+      const typ = document.getElementById('weap-type-filter').value;
+      const rar = document.getElementById('weap-rarity-filter').value;
+      const filtered = weapons.filter(w =>
+        (!q  || w.name.toLowerCase().includes(q)) &&
+        (!typ|| w.type === typ) &&
+        (!rar|| w.rarity === Number(rar))
+      );
+      renderWeapons(filtered);
+    }
+    ['weap-search','weap-type-filter','weap-rarity-filter'].forEach(id => {
+      document.getElementById(id).addEventListener('input', filterWeapons);
+    });
+
+    /* ── Search & filter: Materials ── */
+    function filterMats() {
+      const q   = document.getElementById('mat-search').value.toLowerCase();
+      const typ = document.getElementById('mat-type-filter').value;
+      const filtered = materials.filter(m =>
+        (!q  || m.name.toLowerCase().includes(q)) &&
+        (!typ|| m.type === typ)
+      );
+      renderMaterials(filtered);
+    }
+    ['mat-search','mat-type-filter'].forEach(id => {
+      document.getElementById(id).addEventListener('input', filterMats);
+    });
+  </script>
+  
+
+</body>
+</html>

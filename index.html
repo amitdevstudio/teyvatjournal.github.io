@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teyvat Journal</title>
+  <link rel="stylesheet" href="./assets/src/output.css">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    * {
+      scroll-behavior: smooth;
+    }
+
+    /* Floating particles */
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      filter: blur(2px);
+      animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+        opacity: 0;
+      }
+
+      50% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-900px);
+        opacity: 0;
+      }
+    }
+
+    /* Fade-up animation */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeUp 1s ease forwards;
+    }
+
+    .fade-up.delay-1 {
+      animation-delay: 0.3s;
+    }
+
+    .fade-up.delay-2 {
+      animation-delay: 0.6s;
+    }
+
+    .fade-up.delay-3 {
+      animation-delay: 0.9s;
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Scroll indicator */
+    .scroll-down {
+      position: absolute;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translate(-50%, 0);
+      }
+
+      50% {
+        transform: translate(-50%, 10px);
+      }
+    }
+
+    /* FIXED GENSHIN CURSOR */
+    body {
+      cursor: url('./assets/images/cursor.png') 4 2, auto;
+    }
+
+    button,
+    a,
+    input {
+      cursor: url('./assets/images/cursor.png') 4 2, auto !important;
+    }
+
+    .loader {
+      position: fixed;
+      inset: 0;
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .paimon-box {
+      text-align: center;
+    }
+
+    /* PAIMON FLOAT */
+    .paimon {
+      width: 80px;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    /* Floating animation */
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    /* Loader container */
+    .loader {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 10;
+    }
+
+    /* Three bouncing dots */
+    .dot-loader {
+      display: flex;
+      gap: 5px;
+    }
+
+    .dot-loader div {
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+      animation: bounce 1.2s infinite ease-in-out;
+    }
+
+    .dot-loader div:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .dot-loader div:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .dot-loader div:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      80%,
+      100% {
+        transform: scale(0);
+      }
+
+      40% {
+        transform: scale(1);
+      }
+    }
+
+    /* Custom scrollbar for search results */
+    #searchResults::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #searchResults::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+    }
+
+    #searchResults::-webkit-scrollbar-thumb {
+      background: rgba(250, 204, 21, 0.6);
+      border-radius: 10px;
+    }
+
+    #searchResults::-webkit-scrollbar-thumb:hover {
+      background: rgba(250, 204, 21, 1);
+    }
+
+    /* Firefox support */
+    #searchResults {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(250, 204, 21, 0.6) rgba(255, 255, 255, 0.05);
+    }
+
+    /* ── Mobile Menu ── */
+    #mobileMenu {
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+
+    #mobileMenu.open {
+      transform: translateX(0);
+    }
+
+    /* Hamburger bars */
+    .ham-bar {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: white;
+      border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease;
+      transform-origin: center;
+    }
+
+    /* X state */
+    #menuToggle.is-open #bar1 {
+      transform: rotate(45deg) translate(5px, 5px);
+      background: #facc15;
+    }
+
+    #menuToggle.is-open #bar2 {
+      opacity: 0;
+    }
+
+    #menuToggle.is-open #bar3 {
+      transform: rotate(-45deg) translate(5px, -5px);
+      background: #facc15;
+    }
+
+    /* Mobile nav link active highlight */
+    .mobile-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: #e5e7eb;
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s ease, padding-left 0.2s ease;
+    }
+
+    .mobile-link:hover {
+      color: #facc15;
+      padding-left: 6px;
+    }
+
+    .mobile-link .arrow {
+      color: #facc15;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body class="bg-black overflow-x-hidden">
+
+  <!-- ════════════════════════════════════════
+       NAVBAR
+  ════════════════════════════════════════ -->
+  <header class="absolute top-0 left-0 w-full z-50">
+    <div class="w-full flex items-center justify-between px-10 md:px-20 py-6 text-white">
+
+      <!-- LEFT: Logo -->
+      <div class="text-2xl font-semibold whitespace-nowrap">
+        Teyvat Journal
+      </div>
+
+      <!-- MIDDLE: Nav (desktop) -->
+      <nav class="hidden md:flex gap-10 text-lg font-medium mx-16">
+        <a href="#home"       class="hover:text-yellow-400 transition">Home</a>
+        <a href="#news"       class="hover:text-yellow-400 transition">News</a>
+        <a href="#version"    class="hover:text-yellow-400 transition">Version</a>
+        <a href="#guides"     class="hover:text-yellow-400 transition">Guides</a>
+        <a href="#wallpapers" class="hover:text-yellow-400 transition">Wallpapers</a>
+      </nav>
+
+      <!-- RIGHT: Search (desktop) -->
+      <div class="relative hidden md:block w-[400px]">
+        <input id="searchInput" type="text" autocomplete="off"
+          placeholder="Search versions, banners, characters..."
+          class="w-full px-6 py-3 rounded-full bg-white/20 backdrop-blur-md text-sm text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+        <div id="searchResults"
+          class="absolute left-0 top-full mt-3 w-full bg-black/95 rounded-xl border border-white/10 hidden z-50 max-h-[350px] overflow-y-auto">
+        </div>
+      </div>
+
+      <!-- Hamburger (mobile) -->
+      <button id="menuToggle" class="md:hidden flex flex-col gap-[6px] p-2 z-50 relative"
+        aria-label="Toggle navigation menu" aria-expanded="false">
+        <span id="bar1" class="ham-bar"></span>
+        <span id="bar2" class="ham-bar"></span>
+        <span id="bar3" class="ham-bar"></span>
+      </button>
+
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════════
+       MOBILE MENU DRAWER
+  ════════════════════════════════════════ -->
+  <div id="mobileMenu"
+    class="fixed inset-0 bg-black/95 backdrop-blur-md z-40 flex flex-col px-8 pt-28 pb-10 md:hidden"
+    aria-hidden="true">
+
+    <!-- Nav links -->
+    <nav class="flex flex-col">
+      <a href="#home"       class="mobile-link">Home       <span class="arrow">›</span></a>
+      <a href="#news"       class="mobile-link">News       <span class="arrow">›</span></a>
+      <a href="#version"    class="mobile-link">Version    <span class="arrow">›</span></a>
+      <a href="#guides"     class="mobile-link">Guides     <span class="arrow">›</span></a>
+      <a href="#wallpapers" class="mobile-link">Wallpapers <span class="arrow">›</span></a>
+    </nav>
+
+    <!-- Mobile search -->
+    <div class="relative mt-6">
+      <input id="mobileSearchInput" type="text" autocomplete="off"
+        placeholder="Search versions, banners, characters..."
+        class="w-full px-6 py-3 rounded-full bg-white/15 border border-white/20 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+    </div>
+
+    <!-- Social icons pinned to bottom -->
+    <div class="mt-auto flex gap-6 text-gray-400 text-xl pt-8 border-t border-white/10">
+      <a href="404.html" class="hover:text-white transition"><i class="fab fa-youtube"></i></a>
+      <a href="404.html" class="hover:text-white transition"><i class="fab fa-instagram"></i></a>
+      <a href="404.html" class="hover:text-white transition"><i class="fab fa-discord"></i></a>
+    </div>
+
+  </div>
+
+  <!-- Hero Section -->
+  <section id="home" class="relative h-screen flex items-center justify-center text-center">
+
+    <!-- Video Background -->
+    <video autoplay muted loop playsinline poster="assets/images/hero/hero-image.jpg"
+      class="absolute inset-0 w-full h-full object-cover">
+      <source src="assets/videos/hero-video.mp4" type="video/mp4">
+    </video>
+
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/80"></div>
+
+    <!-- Particles -->
+    <div class="particle" style="left:15%; animation-delay:0s;"></div>
+    <div class="particle" style="left:35%; animation-delay:2s;"></div>
+    <div class="particle" style="left:55%; animation-delay:4s;"></div>
+    <div class="particle" style="left:75%; animation-delay:1s;"></div>
+    <div class="particle" style="left:90%; animation-delay:3s;"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 px-6 lg:-translate-y-16 md:-translate-y-24">
+
+      <h1 class="text-4xl md:text-6xl font-semibold text-white fade-up">
+        Stay Updated with Every Genshin Patch
+      </h1>
+
+      <p class="mt-5 text-lg text-gray-200 max-w-2xl mx-auto fade-up delay-1">
+        Explore detailed breakdowns of the latest versions, character releases, banner leaks, and upcoming content.
+      </p>
+
+      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4 fade-up delay-2">
+        <button
+          class="bg-yellow-400 text-black px-8 py-3 rounded-full font-medium hover:text-white hover:bg-transparent border-2 border-yellow-400 transition">
+          View Latest Version
+        </button>
+        <button class="bg-white/20 px-8 py-3 rounded-full backdrop-blur-md hover:bg-white/30 transition text-white">
+          All Patch Notes
+        </button>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-down">
+      <svg width="28" height="28" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M6 9l6 6 6-6" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- News Section -->
+  <section id="news" class="bg-gray-950 text-white py-20 px-6 md:px-16">
+    <div class="flex max-w-7xl mx-auto justify-between items-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-semibold">Latest News</h2>
+      <button onclick="window.location.href='comingsoon.html'"
+        class="text-sm border border-white/20 px-4 py-2 rounded-full hover:bg-white hover:text-black transition">
+        View All
+      </button>
+    </div>
+    <div id="newsContainer" class="grid max-w-7xl mx-auto md:grid-cols-3 gap-6"></div>
+  </section>
+
+  <!-- Updates -->
+  <section id="version" class="bg-black text-white py-20 px-6 md:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex justify-between items-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-semibold">Latest Updates</h2>
+        <button onclick="window.location.href='comingsoon.html'"
+          class="text-sm border border-white/20 px-4 py-2 rounded-full hover:bg-white hover:text-black transition">
+          View All
+        </button>
+      </div>
+      <div id="blogContainer" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+    </div>
+  </section>
+
+  <!-- Guides Section -->
+  <section id="guides" class="bg-gray-950 text-white py-20 px-6 md:px-16">
+    <div class="flex justify-between mx-auto items-center max-w-7xl">
+      <h2 class="text-3xl md:text-4xl font-semibold mb-12">Guides</h2>
+      <button class="text-sm border-2 border-white/20 px-4 py-2 rounded-full hover:bg-white hover:text-black transition"
+        onclick="window.location.href='comingsoon.html'">
+        View All
+      </button>
+    </div>
+    <div id="guidesGrid" class="grid md:grid-cols-3 max-w-7xl mx-auto gap-8"></div>
+  </section>
+
+  <!-- Wallpapers Section -->
+  <section id="wallpapers" class="py-20 px-6 text-white md:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex justify-between items-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-semibold">Genshin Wallpapers</h2>
+        <button
+          class="text-sm border-2 border-white/20 px-4 py-2 rounded-full hover:bg-white hover:text-black transition"
+          onclick="window.location.href='https://amittowallpapers.netlify.app/genshin-live.html'">
+          View All
+        </button>
+      </div>
+      <div id="genshin-wallpapers" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-black text-white py-20 text-center">
+    <h2 class="text-3xl font-semibold">Stay Updated</h2>
+    <p class="text-gray-400 mt-3">Get the latest Genshin updates instantly.</p>
+    <div class="mt-6 grid md:flex lg:mx-auto justify-center gap-4">
+      <input type="text" placeholder="Enter email" class="px-5 py-3 rounded-full bg-white/20 backdrop-blur-md">
+      <button class="bg-yellow-400 text-black px-6 py-3 rounded-full">Subscribe</button>
+    </div>
+  </section>
+
+  <footer class="bg-black text-gray-400 px-6 md:px-16 py-12 border-t border-white/10">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-3 lg:grid-cols-4 gap-10">
+
+      <!-- Logo / About -->
+      <div>
+        <h2 class="text-white text-2xl font-semibold">Teyvat Journal</h2>
+        <p class="mt-4 text-sm">
+          Your ultimate hub for Genshin Impact guides, updates, and wallpapers.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3 class="text-white font-medium mb-4">Quick Links</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="index.html" class="hover:text-white transition">Home</a></li>
+          <li><a href="#version"   class="hover:text-white transition">Updates</a></li>
+          <li><a href="#guides"    class="hover:text-white transition">Guides</a></li>
+          <li><a href="wallpapers.html" class="hover:text-white transition">Wallpapers</a></li>
+        </ul>
+      </div>
+
+      <!-- Latest -->
+      <div>
+        <h3 class="text-white font-medium mb-4">Latest Updates</h3>
+        <ul id="footerUpdates" class="space-y-2 text-sm">
+          <!-- JS will inject here -->
+        </ul>
+      </div>
+
+      <!-- Social / Contact -->
+      <div>
+        <h3 class="text-white font-medium mb-4">Connect</h3>
+        <div class="flex gap-4 text-lg">
+          <a href="404.html" class="hover:text-white transition"><i class="fab fa-youtube"></i></a>
+          <a href="404.html" class="hover:text-white transition"><i class="fab fa-instagram"></i></a>
+          <a href="404.html" class="hover:text-white transition"><i class="fab fa-discord"></i></a>
+        </div>
+        <p class="mt-4 text-sm">Contact: <span class="text-white">coming soon</span></p>
+      </div>
+
+    </div>
+
+    <!-- Bottom -->
+    <div class="border-t border-gray-700 mt-10 pt-6 text-center text-sm text-gray-400">
+      &copy; <span id="year"></span> Teyvat Journal. All rights reserved.<br />
+      Made with <span class="text-red-500"><i class="fa-solid fa-heart" aria-hidden="true"></i></span> by
+      <a href="https://amitdevstudio.netlify.app" target="_blank" rel="noreferrer noopener"
+        class="font-semibold text-white hover:underline">AmitDevStudio</a>.
+    </div>
+  </footer>
+
+  <!-- ════════════════════════════════════════
+       SCRIPTS
+  ════════════════════════════════════════ -->
+  <script type="module" src="./assets/js/search.js"></script>
+  <script type="module" src="./assets/js/guides.js"></script>
+  <script type="module" src="./assets/js/storage.js"></script>
+  <script type="module" src="./assets/js/genshin-live.js"></script>
+  <script type="module">
+    import { renderNewsCards } from './assets/js/news.js';
+    renderNewsCards('newsContainer');
+  </script>
+  <script src="./assets/js/wallpaperStorage.js"></script>
+  <script type="module">
+    import { updates } from './assets/js/updates.js';
+
+    const footerList = document.getElementById('footerUpdates');
+    if (footerList) {
+      const latest = updates.slice(0, 4);
+      footerList.innerHTML = latest.map(update => `
+        <li>
+          <a href="update.html?id=${update.id}" class="hover:text-white transition block truncate">
+            ${update.title}
+          </a>
+        </li>
+      `).join('');
+    }
+
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  </script>
+
+  <!-- Mobile Menu Logic -->
+  <script>
+    (function () {
+      const toggle  = document.getElementById('menuToggle');
+      const menu    = document.getElementById('mobileMenu');
+      const links   = menu.querySelectorAll('.mobile-link');
+      let isOpen    = false;
+
+      function openMenu() {
+        isOpen = true;
+        menu.classList.add('open');
+        toggle.classList.add('is-open');
+        toggle.setAttribute('aria-expanded', 'true');
+        menu.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMenu() {
+        isOpen = false;
+        menu.classList.remove('open');
+        toggle.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      toggle.addEventListener('click', () => isOpen ? closeMenu() : openMenu());
+
+      // Close when any nav link is tapped
+      links.forEach(link => link.addEventListener('click', closeMenu));
+
+      // Close on Escape key
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && isOpen) closeMenu();
+      });
+    })();
+  </script>
+
+</body>
+</html>

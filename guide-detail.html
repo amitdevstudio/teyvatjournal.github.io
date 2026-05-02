@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide Detail — TeyvatJournal</title>
+  <link rel="stylesheet" href="./assets/src/output.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --accent:        #f0c060;
+      --accent-dim:    rgba(240,192,96,0.10);
+      --accent-border: rgba(240,192,96,0.28);
+      --surface:       rgba(255,255,255,0.04);
+      --surface-2:     rgba(255,255,255,0.07);
+      --border:        rgba(255,255,255,0.08);
+      --border-hi:     rgba(255,255,255,0.18);
+      --text-1:        #f0ede8;
+      --text-2:        #9ca3af;
+      --text-3:        #5a6070;
+      --bg:            #07080d;
+      --r-sm: 8px; --r-md: 12px; --r-lg: 18px; --r-xl: 26px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-1);
+      font-family: 'Raleway', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      opacity: 0;
+      animation: pageFade 0.45s ease forwards;
+    }
+    body { cursor: url('/TeyvatJournal/assets/images/cursor.png') 4 2, auto; }
+    *, *:not(button):not(a):not(input) { cursor: url('/TeyvatJournal/assets/images/cursor.png') 4 2, auto !important; }
+    button, a, input { cursor: url('/TeyvatJournal/assets/images/cursor.png') 4 2, auto !important; }
+
+    @keyframes pageFade { to { opacity: 1; } }
+
+    /* ── Progress ── */
+    #progressBar {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: linear-gradient(90deg, var(--accent), #fde68a);
+      z-index: 9999;
+      transition: width 0.08s linear;
+    }
+
+    /* ── Topbar ── */
+    .topbar {
+      position: sticky; top: 0; z-index: 200;
+      height: 58px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      background: rgba(7,8,13,0.80);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .back-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 6px 16px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 9999px;
+      color: var(--text-2); font-size: 13px; font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .back-pill:hover { background: var(--surface-2); border-color: var(--border-hi); color: var(--text-1); }
+
+    .topbar-section {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-3);
+    }
+
+    /* ── Layout ── */
+    .page-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 7rem;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      aspect-ratio: 16/7;
+      margin-bottom: 2rem;
+      background: #111;
+    }
+    .hero img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .hero:hover img { transform: scale(1.04); }
+
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(7,8,13,0.92) 0%,
+        rgba(7,8,13,0.5) 40%,
+        rgba(7,8,13,0.15) 100%
+      );
+    }
+    /* Extra bottom gradient for title readability */
+    .hero-overlay::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(7,8,13,0.96) 0%, transparent 55%);
+    }
+
+    .hero-content {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 2rem 2rem 1.75rem;
+      z-index: 2;
+    }
+
+    .hero-type-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 13px;
+      border-radius: 9999px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      border: 1px solid currentColor;
+      margin-bottom: 0.9rem;
+      backdrop-filter: blur(8px);
+    }
+    .hero-type-pill::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .type-character   { color: #f0c060; background: rgba(240,192,96,0.12); }
+    .type-team        { color: #60a5fa; background: rgba(96,165,250,0.10); }
+    .type-combat      { color: #c084fc; background: rgba(192,132,252,0.10); }
+    .type-exploration { color: #4ade80; background: rgba(74,222,128,0.10); }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      font-weight: 700; line-height: 1.2;
+      color: #fff;
+      text-shadow: 0 3px 28px rgba(0,0,0,0.7);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-desc {
+      font-size: 1rem; color: rgba(255,255,255,0.6);
+      line-height: 1.6; max-width: 540px;
+    }
+
+    /* ── Meta row ── */
+    .meta-row {
+      display: flex; align-items: center; flex-wrap: wrap;
+      gap: 10px; margin-bottom: 2rem;
+    }
+    .tag-chip {
+      padding: 4px 13px; border-radius: 9999px;
+      background: var(--accent-dim); border: 1px solid var(--accent-border);
+      color: var(--accent); font-size: 12px; font-weight: 600;
+    }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-3); }
+    .meta-text { font-size: 13px; color: var(--text-3); }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+    /* ── Guide sections ── */
+    .guide-section { margin-bottom: 2.5rem; }
+
+    .section-heading {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem; font-weight: 600;
+      color: var(--text-1);
+      letter-spacing: 0.05em; text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .section-heading::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+    }
+
+    /* ── Guide content box ── */
+    .guide-content {
+      font-size: 1.0625rem; line-height: 1.9;
+      color: #bec5cf; letter-spacing: 0.015em;
+    }
+    .guide-content p + p { margin-top: 1.3rem; }
+
+    /* ── Stat table ── */
+    .stat-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      border-radius: var(--r-md);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .stat-table th {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-2);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-table td {
+      padding: 10px 14px;
+      color: var(--text-1);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .stat-table tr:last-child td { border-bottom: none; }
+    .stat-table tr:hover td { background: rgba(255,255,255,0.025); }
+
+    .stat-accent { color: var(--accent); font-weight: 600; }
+    .stat-secondary { color: var(--text-2); }
+
+    /* ── Priority cards ── */
+    .priority-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .priority-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 1rem 1.1rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .priority-card:hover { background: var(--surface-2); border-color: var(--border-hi); }
+
+    .priority-rank {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .priority-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem; font-weight: 600;
+      color: var(--text-1); margin-bottom: 0.3rem;
+    }
+    .priority-note { font-size: 0.78rem; color: var(--text-2); line-height: 1.5; }
+
+    /* ── Tip box ── */
+    .tip-box {
+      display: flex; gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-border);
+      border-radius: var(--r-md);
+    }
+    .tip-icon { font-size: 1.25rem; flex-shrink: 0; }
+    .tip-content { font-size: 0.9rem; color: var(--text-2); line-height: 1.65; }
+    .tip-content strong { color: var(--accent); }
+
+    /* ── Related ── */
+    .related-section { margin-top: 4rem; }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .related-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-lg); overflow: hidden;
+      text-decoration: none; display: block;
+      transition: border-color 0.25s, transform 0.3s cubic-bezier(.22,.68,0,1.2), box-shadow 0.25s;
+    }
+    .related-card:hover {
+      border-color: var(--border-hi);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .related-card-img { height: 138px; overflow: hidden; }
+    .related-card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.5s ease;
+    }
+    .related-card:hover .related-card-img img { transform: scale(1.07); }
+
+    .related-card-body { padding: 1rem 1.1rem 1.25rem; }
+
+    .related-card-type {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+    .related-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--text-1); line-height: 1.4;
+      margin-bottom: 0.4rem;
+      transition: color 0.2s;
+    }
+    .related-card:hover .related-card-title { color: var(--accent); }
+    .related-card-desc {
+      font-size: 0.78rem; color: var(--text-2); line-height: 1.55;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .related-card-cta {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 12px; font-weight: 600;
+      color: var(--accent); margin-top: 0.75rem;
+      opacity: 0.7; transition: opacity 0.2s, gap 0.2s;
+    }
+    .related-card:hover .related-card-cta { opacity: 1; gap: 7px; }
+
+    /* ── Materials ── */
+    .materials-grid {
+      display: flex; flex-direction: column; gap: 1.25rem;
+    }
+    .mat-group-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.09em;
+      text-transform: uppercase; color: var(--text-3);
+      margin-bottom: 0.6rem;
+    }
+    .mat-row {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .mat-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      font-size: 0.8rem; color: var(--text-1);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .mat-chip:hover { background: var(--surface-2); border-color: var(--border-hi); }
+    .mat-icon { font-size: 8px; flex-shrink: 0; }
+    .mat-green  { color: #4ade80; }
+    .mat-blue   { color: #60a5fa; }
+    .mat-purple { color: #c084fc; }
+    .mat-yellow { color: #f0c060; }
+    .mat-red    { color: #f87171; }
+
+    /* ── Weapon tier label ── */
+    .weapon-tier-label {
+      display: flex; align-items: center;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      margin-bottom: 0.65rem; margin-top: 0.25rem;
+    }
+
+    /* ── Team cards ── */
+    .team-list { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .team-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-md); overflow: hidden;
+      transition: border-color 0.25s;
+    }
+    .team-card:hover { border-color: var(--border-hi); }
+
+    .team-card-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.025);
+    }
+    .team-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; border-radius: 6px;
+      font-size: 11px; font-weight: 800; letter-spacing: 0;
+      flex-shrink: 0;
+    }
+    .team-badge--s { background: rgba(240,192,96,0.18); color: #f0c060; }
+    .team-badge--a { background: rgba(96,165,250,0.15); color: #60a5fa; }
+    .team-card-name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--text-1); flex: 1;
+    }
+    .team-card-tag {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 9999px;
+      background: var(--accent-dim); border: 1px solid var(--accent-border);
+      color: var(--accent);
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 600px) {
+      .topbar { padding: 0 1.25rem; }
+      .page-wrap { padding: 2rem 1.25rem 5rem; }
+      .hero-title { font-size: 1.4rem; }
+      .hero { aspect-ratio: 4/3; }
+    }
+
+    /* ── Game-style Materials UI ── */
+
+    .calc-section {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      margin-bottom: 0.75rem;
+      transition: border-color 0.25s;
+    }
+    .calc-section:hover { border-color: var(--border-hi); }
+
+    .calc-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1.1rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .calc-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .calc-header-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .calc-header-range {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-3);
+      letter-spacing: 0.02em;
+      font-family: 'Raleway', sans-serif;
+      white-space: nowrap;
+    }
+
+    .calc-header-arrow {
+      margin: 0 4px;
+      opacity: 0.5;
+    }
+
+    .calc-header-lv {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* Talent names sub-row */
+    .calc-talent-names {
+      padding: 0.5rem 1.1rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .calc-talent-name-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-2);
+      padding: 3px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .calc-talent-name-row:last-child { border-bottom: none; }
+    .calc-talent-name-row span:last-child {
+      font-size: 0.7rem;
+      color: var(--text-3);
+      white-space: nowrap;
+    }
+
+    /* Material rows */
+    .calc-mat-rows {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NEW: source-grouped row ── */
+    .calc-source-row {
+      display: flex;
+      align-items: center;
+      padding: 0.7rem 1.1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.035);
+      gap: 0;
+      min-height: 60px;
+    }
+    .calc-source-row:last-child { border-bottom: none; }
+
+    /* left: item icon cluster */
+    .calc-source-items {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    /* right: source info with vertical divider */
+    .calc-source-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 14px;
+      padding-left: 14px;
+      border-left: 1px solid rgba(255,255,255,0.07);
+      flex-shrink: 0;
+      min-width: 0;
+    }
+
+    .calc-source-icon-wrap {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .calc-source-icon-wrap svg { opacity: 0.75; }
+
+    .calc-source-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .calc-source-name {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-1);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .calc-source-note {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      white-space: nowrap;
+      text-decoration: none;
+      transition: opacity 0.2s, gap 0.2s;
+    }
+    .calc-source-note:hover {
+      opacity: 0.75;
+      gap: 5px;
+    }
+    .calc-source-note svg { opacity: 0.8; }
+
+    /* ── Ungrouped legacy row (keep for fallback) ── */
+    .calc-mat-row {
+      display: flex;
+      align-items: center;
+      padding: 0.65rem 1.1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.035);
+      gap: 12px;
+    }
+    .calc-mat-row:last-child { border-bottom: none; }
+
+    /* Item icons cluster */
+    .calc-mat-items {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+      flex-wrap: wrap;
+    }
+
+    .calc-mat-item {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      border-radius: 9px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      flex-shrink: 0;
+      transition: transform 0.2s, border-color 0.2s;
+      cursor: url('/TeyvatJournal/assets/images/cursor.png') 4 2, auto;
+    }
+    .calc-mat-item:hover {
+      transform: translateY(-2px) scale(1.08);
+      border-color: rgba(255,255,255,0.28);
+    }
+    .calc-mat-item img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      padding: 4px;
+    }
+    .calc-mat-qty {
+      position: absolute;
+      bottom: 2px; right: 3px;
+      font-size: 9px; font-weight: 800;
+      color: #fff;
+      background: rgba(0,0,0,0.75);
+      border-radius: 3px;
+      padding: 0px 3px;
+      line-height: 1.5;
+      pointer-events: none;
+    }
+    .calc-mat-item-tip {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%; transform: translateX(-50%);
+      background: rgba(15,16,24,0.95);
+      border: 1px solid var(--border-hi);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 10px;
+      color: var(--text-1);
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      z-index: 10;
+    }
+    .calc-mat-item:hover .calc-mat-item-tip { opacity: 1; }
+
+    /* Source info */
+    .calc-mat-source {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--text-2);
+      white-space: nowrap;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .calc-mat-source-icon {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .calc-mat-source svg { opacity: 0.7; }
+    .calc-mat-source-name { color: var(--text-2); }
+    .calc-mat-source-note {
+      font-size: 0.68rem;
+      color: var(--text-3);
+      margin-left: 2px;
+    }
+
+    /* rarity tint borders */
+    .calc-mat-item.rarity-5 { border-color: rgba(189,155,80,0.5); background: linear-gradient(135deg, rgba(60,40,10,0.6), rgba(189,155,80,0.12)); }
+    .calc-mat-item.rarity-4 { border-color: rgba(128,90,200,0.5); background: linear-gradient(135deg, rgba(40,20,70,0.6), rgba(128,90,200,0.12)); }
+    .calc-mat-item.rarity-3 { border-color: rgba(60,110,200,0.5); background: linear-gradient(135deg, rgba(10,20,60,0.5), rgba(60,110,200,0.12)); }
+    .calc-mat-item.rarity-2 { border-color: rgba(60,160,100,0.5); background: linear-gradient(135deg, rgba(10,40,20,0.5), rgba(60,160,100,0.12)); }
+    .calc-mat-item.rarity-1 { border-color: rgba(120,120,120,0.4); }
+
+    /* subcat divider label */
+    .calc-subcat-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.4rem 1.1rem;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      background: rgba(0,0,0,0.15);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .calc-subcat-label span {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── Weapon card grid ── */
+    .weapon-card-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .weapon-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      width: 76px;
+      cursor: default;
+      transition: transform 0.2s ease;
+    }
+    .weapon-card:hover { transform: translateY(-3px) scale(1.04); }
+
+    .weapon-card-img {
+      width: 66px;
+      height: 66px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .weapon-card-img img {
+      width: 82%;
+      height: 82%;
+      object-fit: contain;
+    }
+    .weapon-card-name {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: var(--text-1);
+      text-align: center;
+      line-height: 1.3;
+      max-width: 76px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .weapon-card-sub {
+      font-size: 0.55rem;
+      color: var(--text-3);
+      text-align: center;
+      line-height: 1.2;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="progressBar"></div>
+
+  <nav class="topbar">
+    <a href="index.html#guides" class="back-pill">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+        <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to Guides
+    </a>
+    <span class="topbar-section">Guides</span>
+  </nav>
+
+  <main class="page-wrap">
+    <article id="guideArticle">
+      <p style="color:var(--text-3); font-size:14px; padding:4rem 0; text-align:center;">Loading…</p>
+    </article>
+  </main>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const h = document.body.scrollHeight - window.innerHeight;
+      document.getElementById('progressBar').style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+    });
+
+    function getTypeClass(type) {
+      return { character:'type-character', team:'type-team', combat:'type-combat', exploration:'type-exploration' }[type] || 'type-character';
+    }
+
+    function getTypeColor(type) {
+      return { character:'#f0c060', team:'#60a5fa', combat:'#c084fc', exploration:'#4ade80' }[type] || '#f0c060';
+    }
+
+    function getTypeLabel(type) {
+      return { character:'Character', team:'Team Comp', combat:'Combat', exploration:'Exploration' }[type] || type;
+    }
+
+    // Element colors for team icons
+    const ELEMENT_COLOR = {
+      anemo:'#74c2a8', pyro:'#ef7939', hydro:'#4cc2f1',
+      cryo:'#9fd6e3', electro:'#b27fd4', geo:'#f0b239', dendro:'#a0c846'
+    };
+    const ELEMENT_ICON = {
+      anemo: 'https://static.wikia.nocookie.net/genshin-impact/images/4/41/Element_Anemo.png',
+      pyro:  'https://static.wikia.nocookie.net/genshin-impact/images/2/2f/Element_Pyro.png',
+      hydro: 'https://static.wikia.nocookie.net/genshin-impact/images/6/6c/Element_Hydro.png',
+      cryo:  'https://static.wikia.nocookie.net/genshin-impact/images/7/72/Element_Cryo.png',
+      electro:'https://static.wikia.nocookie.net/genshin-impact/images/a/af/Element_Electro.png',
+      geo:   'https://static.wikia.nocookie.net/genshin-impact/images/1/1e/Element_Geo.png',
+      dendro:'https://static.wikia.nocookie.net/genshin-impact/images/3/37/Element_Dendro.png',
+    };
+
+    function weaponRow(w) {
+      return `<tr>
+        <td class="stat-accent" style="display:flex;align-items:center;gap:8px;">
+          <img src="${w.image}" alt="${w.name}" style="width:32px;height:32px;object-fit:contain;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);padding:2px;" onerror="this.style.display='none'">
+          ${w.name}
+        </td>
+        <td>${w.substat}</td>
+        <td class="stat-secondary">${w.rarity === 5 ? 'Best in slot for this build.' : 'F2P-friendly alternative.'}</td>
+      </tr>`;
+    }
+
+    function weaponCard(w) {
+      return `
+        <div class="weapon-card">
+          <div class="weapon-card-img">
+            <img src="${w.image}" alt="${w.name}" onerror="this.style.opacity='0.15'">
+          </div>
+          <p class="weapon-card-name">${w.name}</p>
+          <p class="weapon-card-sub">${w.substat || ''}</p>
+        </div>
+      `;
+    }
+
+function calcMatItem(m) {
+  const rarity = m.rarity !== undefined ? m.rarity : (m.category === 'level' ? 4 : m.type === 'weekly' ? 5 : m.type === 'boss' ? 4 : 3);
+  return `
+    <div class="calc-mat-item rarity-${rarity}" title="${m.name}">
+      <img src="${m.image}" alt="${m.name}" onerror="this.style.opacity='0.15'">
+      ${m.quantity ? `<span class="calc-mat-qty">${m.quantity >= 1000 ? (m.quantity/1000).toFixed(1)+'k' : m.quantity}</span>` : ''}
+      <span class="calc-mat-item-tip">${m.name}</span>
+    </div>
+  `;
+}
+
+// source icon SVGs
+const SRC_BOSS   = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg>`;
+const SRC_ENEMY  = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`;
+const SRC_BOOK   = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`;
+const SRC_WEEKLY = `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+const SRC_ARROW  = `<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`;
+
+// Group an array of materials by their .source field (undefined/null = 'Unknown')
+// Returns: [ { sourceKey, sourceLabel, type, items[] }, … ]
+function groupBySource(mats) {
+  const map = new Map();
+  for (const m of mats) {
+    const key = m.source || '__none__';
+    if (!map.has(key)) map.set(key, { sourceKey: key, sourceLabel: m.source || '', type: m.type, note: m.note || '', items: [] });
+    map.get(key).items.push(m);
+  }
+  return Array.from(map.values());
+}
+
+// Render a single source-grouped row (items on left, source info on right)
+function calcSourceRowHtml(group, matType) {
+  const iconMap = { boss: SRC_BOSS, enemy: SRC_ENEMY, book: SRC_BOOK, weekly: SRC_WEEKLY };
+  const colorMap = { boss: '#f87171', enemy: '#fb923c', book: '#60a5fa', weekly: '#f0c060', ascend: '#a78bfa', exp: '#4ade80' };
+  const icon = iconMap[matType] || SRC_ENEMY;
+  const noteColor = colorMap[matType] || 'var(--accent)';
+  const hasSource = !!group.sourceLabel;
+
+  // Build teyvat.gg search URL using the source name
+  const mapUrl = `https://act.hoyolab.com/ys/app/interactive-map/index.html#/map/2?lang=en-us&marker_id=&center=&zoom=-3&popup=1`;
+
+  // For "Check Location" links → teyvat.gg map search
+  const isLocation = group.note && group.note.toLowerCase().includes('check location');
+  const noteTag = group.note
+    ? isLocation
+      ? `<a class="calc-source-note" style="color:${noteColor}" href="${mapUrl}" target="_blank" rel="noopener">${group.note} ${SRC_ARROW}</a>`
+      : `<span class="calc-source-note" style="color:${noteColor}">${group.note} ${SRC_ARROW}</span>`
+    : '';
+
+  return `
+    <div class="calc-source-row">
+      <div class="calc-source-items">
+        ${group.items.map(calcMatItem).join('')}
+      </div>
+      ${hasSource ? `
+      <div class="calc-source-info">
+        <div class="calc-source-icon-wrap" style="background:rgba(0,0,0,0.25);border-color:${noteColor}22;">${icon}</div>
+        <div class="calc-source-text">
+          <span class="calc-source-name">${group.sourceLabel}</span>
+          ${noteTag}
+        </div>
+      </div>` : ''}
+    </div>
+  `;
+}
+
+// Render all groups for a list of materials of the same category type
+function calcGroupedRows(mats, matType) {
+  if (!mats.length) return '';
+  const groups = groupBySource(mats);
+  return groups.map(g => calcSourceRowHtml(g, matType)).join('');
+}
+
+function calcSourceHtml(type, source) {
+  // Legacy helper kept for any existing call-sites
+  const iconMap = { boss: SRC_BOSS, enemy: SRC_ENEMY, book: SRC_BOOK, weekly: SRC_WEEKLY };
+  const icon = iconMap[type] || '';
+  const note = source?.note || '';
+  return `
+    <div class="calc-mat-source">
+      <div class="calc-mat-source-icon">${icon}</div>
+      <span class="calc-mat-source-name">${source?.name || ''}</span>
+      ${note ? `<span class="calc-mat-source-note">${note}</span>` : ''}
+    </div>
+  `;
+}
+
+    function teamMemberChip(c) {
+      return `<div style="display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;">
+        <div style="position:relative;width:56px;height:56px;border-radius:50%;overflow:hidden;border:2px solid ${ELEMENT_COLOR[c.element]};background:rgba(255,255,255,0.04);">
+          <img src="${c.icon}" alt="${c.name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.opacity='0.3'">
+          <img src="${ELEMENT_ICON[c.element]}" alt="${c.element}" style="position:absolute;bottom:0;right:0;width:16px;height:16px;background:rgba(7,8,13,0.8);border-radius:50%;padding:2px;">
+        </div>
+        <span style="font-size:10px;font-weight:700;color:var(--text-2);white-space:nowrap;">${c.name}</span>
+        <span style="font-size:9px;color:${ELEMENT_COLOR[c.element]};text-transform:uppercase;letter-spacing:0.05em;">${c.role}</span>
+      </div>`;
+    }
+
+function artifactCard(a, position) {
+  const positionColors = ['#f0c060', '#c084fc', '#9ca3af', '#60a5fa', '#4ade80'];
+  const positionLabels = ['Best in Slot', 'Alternative', 'Budget Option', 'Option 4', 'Option 5'];
+  const slots = [
+    { key: 'flower',  label: 'Flower'  },
+    { key: 'plume',   label: 'Plume'   },
+    { key: 'sands',   label: 'Sands'   },
+    { key: 'goblet',  label: 'Goblet'  },
+    { key: 'circlet', label: 'Circlet' }
+  ];
+
+  const idx   = (position - 1);
+  const color = positionColors[idx] ?? '#9ca3af';
+  const label = positionLabels[idx] ?? `Option ${position}`;
+
+  const piecesHtml = slots.map(s => `
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+      <div style="width:40px;height:40px;border-radius:var(--r-sm);overflow:hidden;background:rgba(255,255,255,0.04);border:1px solid var(--border);">
+        <img src="${a[s.key]}" alt="${s.label}"
+             style="width:100%;height:100%;object-fit:contain;padding:3px;"
+             onerror="this.style.opacity='0.15'">
+      </div>
+      <span style="font-size:8px;color:var(--text-3);font-weight:700;letter-spacing:0.05em;text-transform:uppercase;">${s.label}</span>
+    </div>`).join('');
+
+  return `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;transition:border-color 0.2s;display:flex;flex-direction:column;"
+         onmouseenter="this.style.borderColor='var(--border-hi)'"
+         onmouseleave="this.style.borderColor='var(--border)'">
+
+      <!-- Header -->
+      <div style="display:flex;align-items:center;gap:12px;padding:0.85rem 1rem;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.025);">
+        <img src="${a.image}" alt="${a.name}"
+             style="width:42px;height:42px;object-fit:contain;border-radius:var(--r-sm);background:rgba(255,255,255,0.04);border:1px solid var(--border);padding:3px;flex-shrink:0;"
+             onerror="this.style.opacity='0.2'">
+        <div style="flex:1;min-width:0;">
+          <p style="font-family:'Cinzel',serif;font-size:0.85rem;font-weight:600;color:var(--text-1);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${a.name}</p>
+          <p style="font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-3);">${a.pieces}pc Bonus</p>
+        </div>
+        <span style="font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 9px;border-radius:9999px;color:${color};border:1px solid currentColor;background:rgba(0,0,0,0.2);white-space:nowrap;">${label}</span>
+      </div>
+
+      <!-- Piece icons -->
+      <div style="display:flex;gap:10px;padding:0.75rem 1rem;flex-wrap:wrap;flex:1;">
+        ${piecesHtml}
+      </div>
+
+      <!-- Source footer -->
+      <div style="padding:0.6rem 1rem;border-top:1px solid var(--border);">
+        <p style="font-size:0.78rem;color:var(--text-2);line-height:1.6;">
+          <span style="font-weight:600;color:var(--text-1);">Source:</span> ${a.source}
+        </p>
+      </div>
+
+    </div>`;
+}
+
+    function teamCard(team, characters) {
+      const members = (team.characterIds || []).map(id => characters.find(c => c.id === id)).filter(Boolean);
+      const badgeClass = team.rank === 'S' ? 'team-badge--s' : 'team-badge--a';
+      return `
+        <div class="team-card">
+          <div class="team-card-header">
+            <span class="team-badge ${badgeClass}">${team.rank}</span>
+            <p class="team-card-name">${team.name}</p>
+            <span class="team-card-tag">${team.tag}</span>
+          </div>
+          ${team.description ? `<p style="font-size:0.8rem;color:var(--text-2);line-height:1.55;padding:0.75rem 1rem 0;">${team.description}</p>` : ''}
+          <div style="padding:1rem 1rem 1.25rem;display:flex;gap:20px;flex-wrap:wrap;">
+            ${members.length ? members.map(teamMemberChip).join('') : '<p style="color:var(--text-3);font-size:0.85rem;">No members listed.</p>'}
+          </div>
+        </div>`;
+    }
+
+    // Generate placeholder guide sections from content string
+    function buildGuideSections(guide, characters = [], weapons = [], materials = [], artifacts = [], teams = []) {
+      const baseContent = guide.content || guide.desc || '';
+      // Resolve by name (new) with id fallback for backwards compat
+      const guideWeapons   = (guide.weapons   || guide.weaponIds   || []).map(ref =>
+        typeof ref === 'string' ? weapons.find(w => w.name === ref) : weapons.find(w => w.id === ref)
+      ).filter(Boolean);
+      const guideMaterials = (guide.materials  || guide.materialIds  || []).flatMap(ref => {
+        if (typeof ref === 'string') {
+          return materials.filter(m => m.name === ref);
+        }
+        const found = materials.find(m => m.id === ref);
+        return found ? [found] : [];
+      });
+      const teamChars      = (guide.teamCharacters || guide.teamCharacterIds || []).map(ref =>
+        typeof ref === 'string' ? characters.find(c => c.name === ref) : characters.find(c => c.id === ref)
+      ).filter(Boolean);
+      // Artifacts: resolve by name from guide.artifacts (ordered: first = best in slot)
+      // Fall back to guide.artifactIds (legacy) or first 3 from global list
+      const guideArtifacts = guide.artifacts && guide.artifacts.length
+        ? guide.artifacts.map(ref =>
+            typeof ref === 'string'
+              ? artifacts.find(a => a.name === ref)
+              : artifacts.find(a => a.id === ref)
+          ).filter(Boolean)
+        : guide.artifactIds
+          ? guide.artifactIds.map(id => artifacts.find(a => a.id === id)).filter(Boolean)
+          : artifacts.slice(0, 3);
+      // Teams: filter global teams by guideId; resolve team.characters by name
+      const guideTeams = teams.filter(t => t.guideId === guide.id).map(t => ({
+        ...t,
+        // support both name arrays (new) and id arrays (legacy)
+        characterIds: (t.characters || []).map(ref => {
+          const c = typeof ref === 'string'
+            ? characters.find(c => c.name === ref)
+            : characters.find(c => c.id === ref);
+          return c ? c.id : null;
+        }).filter(n => n !== null)
+      }));
+      const w5 = guideWeapons.filter(w => w.rarity === 5);
+      const w4 = guideWeapons.filter(w => w.rarity === 4);
+      const matGroups = {
+  level: [],
+  ascension: {
+    exp: [],
+    ascend: [],
+    enemy: [],
+    boss: [],
+  },
+  talent: {
+    enemy: [],
+    book: [],
+    weekly: []
+  }
+};
+
+guideMaterials.forEach(m => {
+  if (m.category === "level") {
+    matGroups.level.push(m);
+  }
+
+  if (m.category === "ascension") {
+    const key = m.type;
+    if (matGroups.ascension[key] !== undefined) {
+      matGroups.ascension[key].push(m);
+    }
+  }
+
+  if (m.category === "talent") {
+    if (matGroups.talent[m.type]) {
+      matGroups.talent[m.type].push(m);
+    }
+  }
+});
+      if (guide.type === 'character') {
+        return `
+
+          <!-- ① About -->
+          <div class="guide-section">
+            <p class="section-heading">About</p>
+            <div class="guide-content">
+              ${baseContent.split(/\n+/).filter(Boolean).map(p => `<p>${p}</p>`).join('') || `<p>${baseContent}</p>`}
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <!-- ② Materials Required -->
+<div class="guide-section">
+  <p class="section-heading">Materials Required</p>
+  <div class="materials-grid-advanced">
+
+    <!-- CHARACTER LEVEL-UP -->
+    ${matGroups.level.length ? `
+    <div class="calc-section">
+      <div class="calc-header">
+        <div class="calc-header-left">
+          <span class="calc-header-dot" style="background:#f0c060"></span>
+          Character Level-Up
+        </div>
+        <div class="calc-header-range">
+          <span class="calc-header-lv">Lv.1</span>
+          <span class="calc-header-arrow"> → </span>
+          <span class="calc-header-lv">Lv.90</span>
+        </div>
+      </div>
+      <div class="calc-mat-rows">
+        <div class="calc-source-row">
+          <div class="calc-source-items">${matGroups.level.map(calcMatItem).join('')}</div>
+        </div>
+      </div>
+    </div>` : ''}
+
+    <!-- CHARACTER ASCENSION -->
+    ${(matGroups.ascension.ascend.length + matGroups.ascension.boss.length + matGroups.ascension.enemy.length) > 0 ? `
+    <div class="calc-section">
+      <div class="calc-header">
+        <div class="calc-header-left">
+          <span class="calc-header-dot" style="background:#a78bfa"></span>
+          Character Ascension
+        </div>
+        <div class="calc-header-range">
+          <span class="calc-header-lv">Lv.1</span>
+          <span class="calc-header-arrow"> → </span>
+          <span class="calc-header-lv">Lv.90</span>
+        </div>
+      </div>
+      <div class="calc-mat-rows">
+        ${matGroups.ascension.ascend.length ? `
+          <div class="calc-subcat-label"><span style="background:#a78bfa"></span>Ascension Materials</div>
+          <div class="calc-source-row">
+            <div class="calc-source-items">${matGroups.ascension.ascend.map(calcMatItem).join('')}</div>
+          </div>` : ''}
+        ${matGroups.ascension.boss.length ? `
+          <div class="calc-subcat-label"><span style="background:#f87171"></span>Normal Boss Drop</div>
+          ${calcGroupedRows(matGroups.ascension.boss, 'boss')}` : ''}
+        ${matGroups.ascension.enemy.length ? `
+          <div class="calc-subcat-label"><span style="background:#fb923c"></span>Common Enemy Drop</div>
+          ${calcGroupedRows(matGroups.ascension.enemy, 'enemy')}` : ''}
+      </div>
+    </div>` : ''}
+
+    <!-- TALENT LEVEL-UP -->
+    ${(matGroups.talent.book.length + matGroups.talent.enemy.length + matGroups.talent.weekly.length) > 0 ? `
+    <div class="calc-section">
+      <div class="calc-header">
+        <div class="calc-header-left">
+          <span class="calc-header-dot" style="background:#60a5fa"></span>
+          Talent Level-Up
+        </div>
+        <div class="calc-header-range">
+          <span class="calc-header-lv">Lv.1</span>
+          <span class="calc-header-arrow"> → </span>
+          <span class="calc-header-lv">Lv.10</span>
+        </div>
+      </div>
+      ${guide.talentNames && guide.talentNames.length ? `
+        <div class="calc-talent-names">
+          ${guide.talentNames.map(t => `
+            <div class="calc-talent-name-row">
+              <span>${t}</span>
+              <span>Lv.1 → Lv.10</span>
+            </div>`).join('')}
+        </div>` : ''}
+      <div class="calc-mat-rows">
+        ${matGroups.talent.book.length ? `
+          <div class="calc-subcat-label"><span style="background:#60a5fa"></span>Talent Books</div>
+          ${calcGroupedRows(matGroups.talent.book, 'book')}` : ''}
+        ${matGroups.talent.enemy.length ? `
+          <div class="calc-subcat-label"><span style="background:#fb923c"></span>Common Enemy Drop</div>
+          ${calcGroupedRows(matGroups.talent.enemy, 'enemy')}` : ''}
+        ${matGroups.talent.weekly.length ? `
+          <div class="calc-subcat-label"><span style="background:#f0c060"></span>Weekly Boss Drop</div>
+          ${calcGroupedRows(matGroups.talent.weekly, 'weekly')}` : ''}
+      </div>
+    </div>` : ''}
+
+  </div>
+</div>
+
+          <hr class="divider">
+
+          <!-- ③ Weapons -->
+          <div class="guide-section">
+            <p class="section-heading">Recommended Weapons</p>
+
+            ${w5.length ? `
+            <p class="weapon-tier-label" style="color:#f0c060;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px;vertical-align:-2px"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              5★ Weapons
+            </p>
+            <div class="weapon-card-grid" style="margin-bottom:1.5rem;">
+              ${w5.map(weaponCard).join('')}
+            </div>` : ''}
+
+            ${w4.length ? `
+            <p class="weapon-tier-label" style="color:#c084fc;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px;vertical-align:-2px"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              4★ Weapons
+            </p>
+            <div class="weapon-card-grid">
+              ${w4.map(weaponCard).join('')}
+            </div>` : ''}
+
+            ${!w5.length && !w4.length ? `<p style="color:var(--text-3);font-size:0.85rem;">No weapons listed for this guide.</p>` : ''}
+          </div>
+
+          <hr class="divider">
+
+          <!-- ④ Artifacts -->
+          <div class="guide-section">
+            <p class="section-heading">Recommended Artifacts</p>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:1.25rem;">
+              ${guideArtifacts.length
+                ? guideArtifacts.map((a, i) => artifactCard(a, i + 1)).join('')
+                : '<p style="color:var(--text-3);font-size:0.85rem;">No artifacts listed for this guide.</p>'}
+            </div>
+            <div class="priority-grid">
+              <div class="priority-card">
+                <p class="priority-rank" style="color:#f0c060">Sands</p>
+                <p class="priority-label">ATK %</p>
+                <p class="priority-note">Or EM for reaction builds.</p>
+              </div>
+              <div class="priority-card">
+                <p class="priority-rank" style="color:#f0c060">Goblet</p>
+                <p class="priority-label">Element DMG Bonus</p>
+                <p class="priority-note">Match your element.</p>
+              </div>
+              <div class="priority-card">
+                <p class="priority-rank" style="color:#f0c060">Circlet</p>
+                <p class="priority-label">CRIT Rate / DMG</p>
+                <p class="priority-note">Aim for 1:2 ratio.</p>
+              </div>
+              <div class="priority-card">
+                <p class="priority-rank" style="color:#9ca3af">Substats</p>
+                <p class="priority-label">CRIT → ATK % → ER</p>
+                <p class="priority-note">ER threshold first, then damage.</p>
+              </div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <!-- ⑤ Teams -->
+          <div class="guide-section">
+            <p class="section-heading">Team Compositions</p>
+            <div class="team-list">
+              ${guideTeams.length
+                ? guideTeams.map(t => teamCard(t, characters)).join('')
+                : `<div class="team-card">
+                    <div class="team-card-header">
+                      <span class="team-badge team-badge--s">S</span>
+                      <p class="team-card-name">Recommended Team</p>
+                      <span class="team-card-tag">Meta</span>
+                    </div>
+                    <div style="padding:1.25rem 1rem;display:flex;gap:20px;flex-wrap:wrap;">
+                      ${teamChars.length ? teamChars.map(teamMemberChip).join('') : '<p style="color:var(--text-3);font-size:0.85rem;">No team members listed.</p>'}
+                    </div>
+                   </div>`}
+            </div>
+          </div>
+
+          <!-- Tip -->
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <p class="tip-content"><strong>Pro Tip:</strong> Always complete your full rotation before re-casting buffs. Proper sequencing can increase overall DPS by 15–20%.</p>
+          </div>
+        `;
+      }
+
+      if (guide.type === 'team') {
+        return `
+          <div class="guide-section">
+            <p class="section-heading">Team Overview</p>
+            <div class="guide-content">
+              ${baseContent.split(/\n+/).filter(Boolean).map(p => `<p>${p}</p>`).join('') || `<p>${baseContent}</p>`}
+            </div>
+          </div>
+          <div class="guide-section">
+            <p class="section-heading">Slot Breakdown</p>
+            <table class="stat-table">
+              <thead><tr><th>Role</th><th>Priority</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td class="stat-accent">Main DPS</td><td>Required</td><td class="stat-secondary">Core of team damage output.</td></tr>
+                <tr><td>Sub-DPS</td><td>Recommended</td><td class="stat-secondary">Provides off-field damage.</td></tr>
+                <tr><td>Buffer</td><td>Recommended</td><td class="stat-secondary">Amplifies team damage.</td></tr>
+                <tr><td>Healer / Shield</td><td>Flexible</td><td class="stat-secondary">Replace with second buffer for max damage.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">⚡</span>
+            <p class="tip-content"><strong>Rotation Order:</strong> Start with buff/support abilities, then deploy sub-DPS, then main DPS for maximum reaction uptime.</p>
+          </div>
+        `;
+      }
+
+      if (guide.type === 'combat') {
+        return `
+          <div class="guide-section">
+            <p class="section-heading">Core Mechanics</p>
+            <div class="guide-content">
+              ${baseContent.split(/\n+/).filter(Boolean).map(p => `<p>${p}</p>`).join('') || `<p>${baseContent}</p>`}
+            </div>
+          </div>
+          <div class="guide-section">
+            <p class="section-heading">Elemental Reaction Priority</p>
+            <div class="priority-grid">
+              <div class="priority-card">
+                <p class="priority-rank" style="color:#f0c060">S Tier</p>
+                <p class="priority-label">Vaporize / Melt</p>
+                <p class="priority-note">1.5× or 2× damage multiplier.</p>
+              </div>
+              <div class="priority-card">
+                <p class="priority-rank" style="color:#60a5fa">A Tier</p>
+                <p class="priority-label">Hyperbloom / Burgeon</p>
+                <p class="priority-note">Scales with EM, ignores DEF.</p>
+              </div>
+              <div class="priority-card">
+                <p class="priority-rank" style="color:#9ca3af">B Tier</p>
+                <p class="priority-label">Aggravate / Spread</p>
+                <p class="priority-note">Flat bonus, consistent uptime.</p>
+              </div>
+            </div>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">🎯</span>
+            <p class="tip-content"><strong>Timing:</strong> Practice cancelling animations with dash or jump to fit more hits inside buff windows.</p>
+          </div>
+        `;
+      }
+
+      // Exploration
+      return `
+        <div class="guide-section">
+          <p class="section-heading">Route Overview</p>
+          <div class="guide-content">
+            ${baseContent.split(/\n+/).filter(Boolean).map(p => `<p>${p}</p>`).join('') || `<p>${baseContent}</p>`}
+          </div>
+        </div>
+        <div class="guide-section">
+          <p class="section-heading">What To Expect</p>
+          <table class="stat-table">
+            <thead><tr><th>Item</th><th>Quantity</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td class="stat-accent">Common Chests</td><td>~15–20</td><td class="stat-secondary">Scattered across route.</td></tr>
+              <tr><td>Exquisite Chests</td><td>~8–12</td><td class="stat-secondary">Often behind puzzles.</td></tr>
+              <tr><td>Precious Chests</td><td>~3–5</td><td class="stat-secondary">Require exploration tasks.</td></tr>
+              <tr><td>Luxurious Chests</td><td>~1–2</td><td class="stat-secondary">Boss or final puzzle reward.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tip-box">
+          <span class="tip-icon">🗺️</span>
+          <p class="tip-content"><strong>Tip:</strong> Enable the Adventurer Handbook's exploration tracker and use Elemental Sight frequently to spot hidden interactables.</p>
+        </div>
+      `;
+    }
+  </script>
+
+  <script type="module">
+    import { guides } from './assets/js/guides.js';
+    import { characters, weapons, materials, artifacts, teams } from './assets/js/storage.js';
+
+    const id   = Number(new URLSearchParams(window.location.search).get('id'));
+    const item = guides.find(g => g.id === id);
+    const el   = document.getElementById('guideArticle');
+
+    if (!item) {
+      el.innerHTML = `
+        <div style="text-align:center; padding:6rem 0;">
+          <p style="color:var(--text-3); font-size:1rem; margin-bottom:1.5rem;">Guide not found.</p>
+          <a href="index.html" class="back-pill">← Go Home</a>
+        </div>`;
+    } else {
+      document.title = `${item.title} — TeyvatJournal`;
+
+      const typeClass = getTypeClass(item.type);
+      const typeColor = getTypeColor(item.type);
+      const typeLabel = getTypeLabel(item.type);
+
+      const related = guides.filter(g => g.id !== item.id).slice(0, 3);
+
+      const relatedHTML = related.length > 0 ? `
+        <div class="related-section">
+          <p class="section-heading">More Guides</p>
+          <div class="related-grid">
+            ${related.map(g => `
+              <a href="guide-detail.html?id=${g.id}" class="related-card">
+                <div class="related-card-img">
+                  <img src="${g.image}" alt="${g.title}" loading="lazy">
+                </div>
+                <div class="related-card-body">
+                  <p class="related-card-type" style="color:${getTypeColor(g.type)}">${getTypeLabel(g.type)}</p>
+                  <p class="related-card-title">${g.title}</p>
+                  <p class="related-card-desc">${g.desc}</p>
+                  <span class="related-card-cta">Open Guide →</span>
+                </div>
+              </a>`).join('')}
+          </div>
+        </div>` : '';
+
+      el.innerHTML = `
+        <!-- Hero -->
+        <div class="hero">
+          <img src="${item.image}" alt="${item.title}" loading="eager">
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <span class="hero-type-pill ${typeClass}">${typeLabel}</span>
+            <h1 class="hero-title">${item.title}</h1>
+            <p class="hero-desc">${item.desc}</p>
+          </div>
+        </div>
+
+        <!-- Meta -->
+        <div class="meta-row">
+          <span class="tag-chip" style="color:${typeColor}; border-color:rgba(from ${typeColor} r g b / 0.35); background:rgba(from ${typeColor} r g b / 0.10)">
+            ${typeLabel}
+          </span>
+          <span class="meta-dot"></span>
+          <span class="meta-text" style="text-transform:capitalize;">${item.type} Guide</span>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Dynamic guide sections -->
+        ${buildGuideSections(item, characters, weapons, materials, artifacts, teams)}
+
+        ${relatedHTML}
+
+        <hr class="divider" style="margin-top:3.5rem;">
+        <a href="index.html#guides" class="back-pill">
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+            <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Back to all guides
+        </a>
+      `;
+    }
+  </script>
+</body>
+</html>

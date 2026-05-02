@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide</title>
+  <link rel="stylesheet" href="/src/output.css">
+</head>
+
+<body class="bg-gray-950 text-white">
+
+  <div class="max-w-4xl mx-auto px-6 py-16">
+
+    <!-- Image -->
+    <img id="guideImage"
+         class="w-full h-64 md:h-80 object-cover rounded-xl mb-8 shadow-lg">
+
+    <!-- Title -->
+    <h1 id="guideTitle"
+        class="text-3xl md:text-4xl font-bold mb-6"></h1>
+
+    <!-- Content -->
+    <p id="guideContent"
+       class="text-gray-300 leading-relaxed text-lg"></p>
+
+    <!-- Back Button -->
+    <a href="index.html"
+       class="inline-block mt-10 text-blue-400 hover:text-blue-500">
+       ← Back to Home
+    </a>
+
+  </div>
+
+  <script type="module">
+    import { guides } from './assets/js/guides.js';
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    const guide = guides.find(g => g.id == id);
+
+    if (guide) {
+      document.getElementById('guideTitle').innerText = guide.title;
+      document.getElementById('guideContent').innerText = guide.content;
+      document.getElementById('guideImage').src = guide.image;
+    } else {
+      document.body.innerHTML = `
+        <div class="text-center mt-32">
+          <h1 class="text-3xl font-bold">Guide Not Found</h1>
+          <a href="index.html" class="text-blue-400 mt-4 inline-block">Go Back</a>
+        </div>
+      `;
+    }
+  </script>
+
+</body>
+</html>
